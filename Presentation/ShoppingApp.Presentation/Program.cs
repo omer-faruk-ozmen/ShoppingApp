@@ -1,3 +1,4 @@
+using ShoppingApp.Persistence;
 using ShoppingApp.Presentation;
 
 var builder = WebApplication.CreateBuilder(args);
