@@ -23,8 +23,12 @@ namespace ShoppingApp.Presentation.Controllers
         [HttpGet]
         public async Task Get()
         {
-            Product? product = await _productReadRepository.GetByIdAsync("12c91d81-5d5c-4988-b72d-4d84776d4e91",false);
-            product.Name = "Ömer";
+            await _productWriteRepository.AddAsync(new()
+            {
+                Name = "Product C",
+                Price = 1.50F,
+                Stock = 10
+            });
             await _productWriteRepository.SaveAsync();
         }
 
