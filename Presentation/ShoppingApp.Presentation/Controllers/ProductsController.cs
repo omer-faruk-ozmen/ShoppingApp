@@ -23,50 +23,9 @@ namespace ShoppingApp.Presentation.Controllers
         [HttpGet]
         public async Task Get()
         {
-            await _productWriteRepository.AddRangeAsync(new()
-            {
-                new()
-                {
-                    Id=Guid.NewGuid(),
-                    Name = "Product 1",
-                    Price = 100,
-                    Stock = 10,
-                    CreatedDate = DateTime.UtcNow
-                },
-                new()
-                {
-                    Id=Guid.NewGuid(),
-                    Name = "Product 2",
-                    Price = 20,
-                    Stock = 10,
-                    CreatedDate = DateTime.UtcNow
-                },
-                new()
-                {
-                    Id=Guid.NewGuid(),
-                    Name = "Product 3",
-                    Price = 233,
-                    Stock = 10,
-                    CreatedDate = DateTime.UtcNow
-                },
-                new()
-                {
-                    Id=Guid.NewGuid(),
-                    Name = "Product 4",
-                    Price = 122,
-                    Stock = 10,
-                    CreatedDate = DateTime.UtcNow
-                },
-                new()
-                {
-                    Id=Guid.NewGuid(),
-                    Name = "Product 5",
-                    Price = 1244,
-                    Stock = 10,
-                    CreatedDate = DateTime.UtcNow
-                }
-            });
-            var count = await _productWriteRepository.SaveAsync();
+            Product? product = await _productReadRepository.GetByIdAsync("12c91d81-5d5c-4988-b72d-4d84776d4e91",false);
+            product.Name = "Ömer";
+            await _productWriteRepository.SaveAsync();
         }
 
         [HttpGet("{id}")]
