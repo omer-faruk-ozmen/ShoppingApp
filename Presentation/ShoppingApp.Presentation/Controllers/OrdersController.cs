@@ -40,15 +40,12 @@ namespace ShoppingApp.Presentation.Controllers
 
         }
         [HttpGet]
-        public async Task Get()
+        public async  Task<IActionResult> Get()
         {
 
-            Order order = await _orderReadRepository.GetByIdAsync("2cee201a-f308-40ed-b52c-4fa03e0b4e28");
+           var order = _orderReadRepository.GetAll();
 
-            order.Address = "İstanbul";
-
-            
-            await _orderWriteRepository.SaveAsync();
+            return Ok(order);
 
         }
     }
