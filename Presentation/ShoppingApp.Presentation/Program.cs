@@ -1,3 +1,6 @@
+using FluentValidation.AspNetCore;
+using ShoppingApp.Application.Validators.Products;
+using ShoppingApp.Infrastructure.Filters;
 using ShoppingApp.Persistence;
 using ShoppingApp.Presentation;
 
@@ -7,11 +10,13 @@ builder.Services.AddPersistenceServices();
 
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
 
-    policy.WithOrigins("http://localhost:4200","https://localhost:4200").AllowAnyHeader().AllowAnyOrigin()
+    policy.WithOrigins("http://localhost:4200","https://localhost:4200").AllowAnyHeader().AllowAnyMethod()
     
 ));
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options=>options.Filters.Add<ValidationFilter>())
+    .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<CreateProductValidator>())
+    .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter=true);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

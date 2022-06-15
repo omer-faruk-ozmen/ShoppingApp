@@ -37,6 +37,9 @@ namespace ShoppingApp.Presentation.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(CreateProductViewModel model)
         {
+            if (ModelState.IsValid)
+            {
+            }
             await _productWriteRepository.AddAsync(new Product()
             {
                 Name = model.Name,
@@ -50,6 +53,8 @@ namespace ShoppingApp.Presentation.Controllers
         [HttpPut]
         public async Task<IActionResult> Put(UpdateProductViewModel model)
         {
+            
+
             Product product = await _productReadRepository.GetByIdAsync(model.Id);
             
             product.Stock = model.Stock;
