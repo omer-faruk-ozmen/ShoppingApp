@@ -1,7 +1,9 @@
 using FluentValidation.AspNetCore;
 using ShoppingApp.Application.Validators.Products;
 using ShoppingApp.Infrastructure;
+using ShoppingApp.Infrastructure.Enums;
 using ShoppingApp.Infrastructure.Filters;
+using ShoppingApp.Infrastructure.Services.Storage.Local;
 using ShoppingApp.Persistence;
 using ShoppingApp.Presentation;
 
@@ -12,6 +14,7 @@ builder.Services.AddInfrastructureServices();
 
 builder.Services.AddPersistenceServices();
 
+builder.Services.AddStorage<LocalStorage>();
 
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
 

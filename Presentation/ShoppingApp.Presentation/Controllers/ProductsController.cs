@@ -9,8 +9,8 @@ using ShoppingApp.Application.Repositories.File;
 using ShoppingApp.Application.Repositories.File.ProductImageFile;
 using ShoppingApp.Application.Repositories.FileRepositories.InvoiceFile;
 using ShoppingApp.Application.RequestParameters;
-using ShoppingApp.Application.Services;
 using ShoppingApp.Domain.Entities.File;
+using ShoppingApp.Infrastructure.Services;
 using File = ShoppingApp.Domain.Entities.File.File;
 
 namespace ShoppingApp.Presentation.Controllers
@@ -21,7 +21,7 @@ namespace ShoppingApp.Presentation.Controllers
     {
         private readonly IProductWriteRepository _productWriteRepository;
         private readonly IProductReadRepository _productReadRepository;
-        private readonly IFileService _fileService;
+        private readonly FileService _fileService;
         private readonly IFileReadRepository _fileReadRepository;
         private readonly IFileWriteRepository _fileWriteRepository;
         private readonly IProductImageFileReadRepository _productImageFileReadRepository;
@@ -32,7 +32,7 @@ namespace ShoppingApp.Presentation.Controllers
         public ProductsController(
             IProductWriteRepository productWriteRepository,
             IProductReadRepository productReadRepository,
-            IFileService fileService,
+            FileService fileService,
             IFileReadRepository fileReadRepository,
             IFileWriteRepository fileWriteRepository,
             IProductImageFileReadRepository productImageFileReadRepository,
@@ -134,30 +134,6 @@ namespace ShoppingApp.Presentation.Controllers
 
             await _fileWriteRepository.SaveAsync();
 
-            //await _productImageFileWriteRepository.AddRangeAsync(datas.Select(
-            //    d => new ProductImageFile()
-            //    {
-            //        FileName = d.fileName,
-            //        Path = d.path
-            //    }).ToList());
-            //await _productImageFileWriteRepository.SaveAsync();
-
-
-            //await _invoiceFileWriteRepository.AddRangeAsync(datas1.Select(
-            //    d => new InvoiceFile()
-            //    {
-            //        FileName = d.fileName,
-            //        Path = d.path,
-            //        Price = new Random().Next(100)
-
-            //    }).ToList());
-            //await _invoiceFileWriteRepository.SaveAsync();
-
-
-
-            var db1 = _fileReadRepository.GetAll();
-            var db2 = _invoiceFileReadRepository.GetAll();
-            var db3 = _productImageFileReadRepository.GetAll();
 
             return Ok();
         }

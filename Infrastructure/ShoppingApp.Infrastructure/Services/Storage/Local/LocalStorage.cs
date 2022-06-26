@@ -5,17 +5,60 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using ShoppingApp.Application.Abstractions.Storage.Local;
 using ShoppingApp.Infrastructure.Operations;
 
-namespace ShoppingApp.Infrastructure.Services
+namespace ShoppingApp.Infrastructure.Services.Storage.Local
 {
-    public class FileService 
+    public class LocalStorage : ILocalStorage
     {
-        readonly IWebHostEnvironment _webHostEnvironment;
-        public FileService(IWebHostEnvironment webHostEnvironment)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public LocalStorage(IWebHostEnvironment webHostEnvironment)
         {
             _webHostEnvironment = webHostEnvironment;
+        }
+
+        public async Task<List<(string fileName, string pathOrContainerName)>> UploadAsync(string path, IFormFileCollection files)
+        {
+            string uploadPath = Path.Combine(_webHostEnvironment.WebRootPath, path);
+            if (!Directory.Exists(uploadPath))
+                Directory.CreateDirectory(uploadPath);
+
+            List<(string fileName, string path)> datas = new();
+
+            foreach (IFormFile file in files)
+            {
+
+
+                await CopyFileAsync($"{uploadPath}\\{file.Name}", file);
+                datas.Add((file.Name, $"{path}\\{file.Name}"));
+            }
+
+
+
+            return datas;
+
+            //Todo Exception
+        }
+        private async Task<bool> CopyFileAsync(string path, IFormFile file)
+        {
+            try
+            {
+                await using FileStream fileStream = new(path, FileMode.Create, FileAccess.Write, FileShare.None, 1024 * 1024,
+                    useAsync: false);
+                await file.CopyToAsync(fileStream);
+                await fileStream.FlushAsync();
+                return true;
+            }
+            catch (Exception e)
+            {
+                //Todo log!
+                throw e;
+            }
+
+
+
         }
         private async Task<string> FileRenameAsync(string path, string fileName, bool first = true)
         {
@@ -58,8 +101,8 @@ namespace ShoppingApp.Infrastructure.Services
                         if (int.TryParse(fileNo, out int _fileNo))
                         {
                             _fileNo++;
-                            newFileName = newFileName.Remove(indexNo1 +1, indexNo2 - indexNo1 - 1)
-                                                        .Insert(indexNo1 +1, _fileNo.ToString());
+                            newFileName = newFileName.Remove(indexNo1 + 1, indexNo2 - indexNo1 - 1)
+                                                        .Insert(indexNo1 + 1, _fileNo.ToString());
                         }
                         else
                         {
@@ -84,6 +127,18 @@ namespace ShoppingApp.Infrastructure.Services
             return newFileName;
 
         }
-        
+
+        public async Task DeleteAsync(string path, string fileName)
+            => File.Delete($"{path}\\{fileName}");
+
+
+        public List<string> GetFiles(string path)
+        {
+            DirectoryInfo directory = new(path);
+            return directory.GetFiles().Select(f => f.Name).ToList();
+        }
+
+        public bool HasFile(string path, string fileName)
+            => File.Exists($"{path}\\{fileName}");
     }
 }

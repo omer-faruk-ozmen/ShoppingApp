@@ -10,4 +10,8 @@
     <ProjectReference Include="..\..\Core\ShoppingApp.Application\ShoppingApp.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\Storage\Azure\" />
+  </ItemGroup>
+
 </Project>
