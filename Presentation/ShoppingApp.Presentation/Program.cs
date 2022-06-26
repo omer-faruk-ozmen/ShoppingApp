@@ -1,12 +1,17 @@
 using FluentValidation.AspNetCore;
 using ShoppingApp.Application.Validators.Products;
+using ShoppingApp.Infrastructure;
 using ShoppingApp.Infrastructure.Filters;
 using ShoppingApp.Persistence;
 using ShoppingApp.Presentation;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+builder.Services.AddInfrastructureServices();
+
 builder.Services.AddPersistenceServices();
+
 
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
 
