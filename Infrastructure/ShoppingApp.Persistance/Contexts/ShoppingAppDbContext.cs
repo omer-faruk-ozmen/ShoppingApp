@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using ShoppingApp.Domain.Entities;
 using ShoppingApp.Domain.Entities.Common;
+using ShoppingApp.Domain.Entities.File;
+using File = ShoppingApp.Domain.Entities.File.File;
 
 namespace ShoppingApp.Persistence.Contexts
 {
@@ -18,6 +20,10 @@ namespace ShoppingApp.Persistence.Contexts
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Customer> Customers { get; set; }
+
+        public DbSet<File> Files{ get; set; }
+        public DbSet<ProductImageFile> ProductImages { get; set; }
+        public DbSet<InvoiceFile> InvoiceFiles { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {

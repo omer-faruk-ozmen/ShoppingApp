@@ -8,9 +8,15 @@ using ShoppingApp.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using ShoppingApp.Application.Repositories.Customer;
+using ShoppingApp.Application.Repositories.File;
+using ShoppingApp.Application.Repositories.File.ProductImageFile;
+using ShoppingApp.Application.Repositories.FileRepositories.InvoiceFile;
 using ShoppingApp.Application.Repositories.Order;
 using ShoppingApp.Application.Repositories.Product;
 using ShoppingApp.Persistence.Repositories.Customer;
+using ShoppingApp.Persistence.Repositories.File;
+using ShoppingApp.Persistence.Repositories.File.InvoiceFile;
+using ShoppingApp.Persistence.Repositories.File.ProductImageFile;
 using ShoppingApp.Persistence.Repositories.Order;
 using ShoppingApp.Persistence.Repositories.Product;
 
@@ -28,6 +34,12 @@ namespace ShoppingApp.Persistence
             services.AddScoped<IOrderWriteRepository, OrderWriteRepository>();
             services.AddScoped<IProductReadRepository, ProductReadRepository>();
             services.AddScoped<IProductWriteRepository, ProductWriteRepository>();
+            services.AddScoped<IFileReadRepository, FileReadRepository>();
+            services.AddScoped<IFileWriteRepository, FileWriteRepository>();
+            services.AddScoped<IProductImageFileReadRepository, ProductImageFileReadRepository>();
+            services.AddScoped<IProductImageFileWriteRepository, ProductImageFileWriteRepository>();
+            services.AddScoped<IInvoiceFileReadRepository, InvoiceFileReadRepository>();
+            services.AddScoped<IInvoiceFileWriteRepository, InvoiceFileWriteRepository>();
 
         }
     }
