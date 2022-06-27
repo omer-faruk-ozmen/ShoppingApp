@@ -5,6 +5,7 @@ using ShoppingApp.Application.Repositories.Product;
 using ShoppingApp.Application.ViewModels.Products;
 using ShoppingApp.Domain.Entities;
 using System.Net;
+using ShoppingApp.Application.Abstractions.Storage;
 using ShoppingApp.Application.Repositories.File;
 using ShoppingApp.Application.Repositories.File.ProductImageFile;
 using ShoppingApp.Application.Repositories.FileRepositories.InvoiceFile;
@@ -21,34 +22,34 @@ namespace ShoppingApp.Presentation.Controllers
     {
         private readonly IProductWriteRepository _productWriteRepository;
         private readonly IProductReadRepository _productReadRepository;
-        private readonly FileService _fileService;
         private readonly IFileReadRepository _fileReadRepository;
         private readonly IFileWriteRepository _fileWriteRepository;
         private readonly IProductImageFileReadRepository _productImageFileReadRepository;
         private readonly IProductImageFileWriteRepository _productImageFileWriteRepository;
         private readonly IInvoiceFileReadRepository _invoiceFileReadRepository;
         private readonly IInvoiceFileWriteRepository _invoiceFileWriteRepository;
+        private readonly IStorageService _storageService;
 
         public ProductsController(
             IProductWriteRepository productWriteRepository,
             IProductReadRepository productReadRepository,
-            FileService fileService,
             IFileReadRepository fileReadRepository,
             IFileWriteRepository fileWriteRepository,
             IProductImageFileReadRepository productImageFileReadRepository,
             IProductImageFileWriteRepository productImageFileWriteRepository,
             IInvoiceFileReadRepository invoiceFileReadRepository,
-            IInvoiceFileWriteRepository invoiceFileWriteRepository)
+            IInvoiceFileWriteRepository invoiceFileWriteRepository, 
+            IStorageService storageService)
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
-            _fileService = fileService;
             _fileReadRepository = fileReadRepository;
             _fileWriteRepository = fileWriteRepository;
             _productImageFileReadRepository = productImageFileReadRepository;
             _productImageFileWriteRepository = productImageFileWriteRepository;
             _invoiceFileReadRepository = invoiceFileReadRepository;
             _invoiceFileWriteRepository = invoiceFileWriteRepository;
+            _storageService = storageService;
         }
 
         [HttpGet]
@@ -120,15 +121,16 @@ namespace ShoppingApp.Presentation.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Upload()
         {
-
-            var datas = await _fileService.UploadAsync("resource/files", Request.Form.Files);
-            //var datas1 = await _fileService.UploadAsync("resource/invoices", Request.Form.Files);
+            var datas= await _storageService.UploadAsync("resoruce/files", Request.Form.Files);
+            //var datas = await _fileService.UploadAsync("resource/files", Request.Form.Files);
+            ////var datas1 = await _fileService.UploadAsync("resource/invoices", Request.Form.Files);
 
             await _fileWriteRepository.AddRangeAsync(datas.Select(
                 d => new File()
                 {
                     FileName = d.fileName,
-                    Path = d.path,
+                    Path = d.pathOrContainerName,
+                    Storage = _storageService.StorageName
 
                 }).ToList());
 

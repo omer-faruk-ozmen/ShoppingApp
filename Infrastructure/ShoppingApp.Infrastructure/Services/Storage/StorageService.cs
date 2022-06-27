@@ -28,5 +28,7 @@ namespace ShoppingApp.Infrastructure.Services.Storage
 
         public bool HasFile(string pathOrContainerName, string fileName)
         =>_storage.HasFile(pathOrContainerName, fileName);
+
+        public string StorageName { get=>_storage.GetType().Name; }
     }
 }
