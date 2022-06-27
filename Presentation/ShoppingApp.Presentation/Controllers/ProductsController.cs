@@ -121,9 +121,7 @@ namespace ShoppingApp.Presentation.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Upload()
         {
-            var datas= await _storageService.UploadAsync("resoruce/files", Request.Form.Files);
-            //var datas = await _fileService.UploadAsync("resource/files", Request.Form.Files);
-            ////var datas1 = await _fileService.UploadAsync("resource/invoices", Request.Form.Files);
+            var datas= await _storageService.UploadAsync("files", Request.Form.Files);
 
             await _fileWriteRepository.AddRangeAsync(datas.Select(
                 d => new File()

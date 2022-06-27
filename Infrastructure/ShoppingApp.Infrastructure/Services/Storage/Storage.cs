@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShoppingApp.Infrastructure.Operations;
 
-namespace ShoppingApp.Infrastructure.Services
+namespace ShoppingApp.Infrastructure.Services.Storage
 {
-    public class FileService
+    public class Storage
     {
-        private async Task<string> FileRenameAsync(string path, string fileName, bool first = true)
+        protected delegate bool HasFile(string pathOrContainerName, string fileName);
+        protected async Task<string> FileRenameAsync(string pathOrContainerName, string fileName, HasFile hasFileMethod, bool first = true)
         {
             string newFileName = await Task.Run<string>(async () =>
             {
@@ -62,9 +60,9 @@ namespace ShoppingApp.Infrastructure.Services
 
                     }
                 }
-                if (File.Exists($"{path}\\{newFileName}"))
+                if (hasFileMethod(pathOrContainerName, newFileName))
                 {
-                    return await FileRenameAsync(path, newFileName, false);
+                    return await FileRenameAsync(pathOrContainerName, newFileName, hasFileMethod, false);
                 }
                 else
                     return newFileName;
@@ -74,6 +72,5 @@ namespace ShoppingApp.Infrastructure.Services
             return newFileName;
 
         }
-
     }
 }

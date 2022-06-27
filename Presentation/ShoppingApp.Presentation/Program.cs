@@ -3,6 +3,7 @@ using ShoppingApp.Application.Validators.Products;
 using ShoppingApp.Infrastructure;
 using ShoppingApp.Infrastructure.Enums;
 using ShoppingApp.Infrastructure.Filters;
+using ShoppingApp.Infrastructure.Services.Storage.Azure;
 using ShoppingApp.Infrastructure.Services.Storage.Local;
 using ShoppingApp.Persistence;
 using ShoppingApp.Presentation;
@@ -14,7 +15,8 @@ builder.Services.AddInfrastructureServices();
 
 builder.Services.AddPersistenceServices();
 
-builder.Services.AddStorage<LocalStorage>();
+//builder.Services.AddStorage<LocalStorage>();
+builder.Services.AddStorage<AzureStorage>();
 
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
 
