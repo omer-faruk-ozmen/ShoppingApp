@@ -129,8 +129,9 @@ namespace ShoppingApp.Infrastructure.Services.Storage.Local
         }
 
         public async Task DeleteAsync(string path, string fileName)
-            => File.Delete($"{path}\\{fileName}");
-
+        {
+            File.Delete($"{path}\\{fileName}");
+        }
 
         public List<string> GetFiles(string path)
         {

@@ -18,35 +18,37 @@ namespace ShoppingApp.Presentation.Controllers
             _orderReadRepository = orderReadRepository;
         }
 
-        [HttpPost]
-        public async Task Add()
-        {
-            var guid = "7aa6e9bc-5209-4b82-83ee-0abd3cd454f5";
+        //[HttpPost]
+        //public async Task Add()
+        //{
+        //    var guid = "7aa6e9bc-5209-4b82-83ee-0abd3cd454f5";
 
 
-            await _orderWriteRepository.AddAsync(new()
-            {
-                Description = "Bla bla bla",
-                Address = "Kars, Merkez",
-                CustomerId = Guid.Parse(guid)
+        //    await _orderWriteRepository.AddAsync(new()
+        //    {
+        //        Description = "Bla bla bla",
+        //        Address = "Kars, Merkez",
+        //        CustomerId = Guid.Parse(guid)
                 
-            });
-            //await _orderWriteRepository.AddAsync(new()
-            //{
-            //    Description = "Bla bla bla 2",
-            //    Address = "Kars"
-            //});
-            await _orderWriteRepository.SaveAsync();
+        //    });
+        //    //await _orderWriteRepository.AddAsync(new()
+        //    //{
+        //    //    Description = "Bla bla bla 2",
+        //    //    Address = "Kars"
+        //    //});
+        //    await _orderWriteRepository.SaveAsync();
 
-        }
-        [HttpGet]
-        public async  Task<IActionResult> Get()
-        {
+        //}
 
-           var order = _orderReadRepository.GetAll();
 
-            return Ok(order);
+        //[HttpGet]
+        //public async  Task<IActionResult> Get()
+        //{
 
-        }
+        //   var order = _orderReadRepository.GetAll();
+
+        //    return Ok(order);
+
+        //}
     }
 }

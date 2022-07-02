@@ -1,4 +1,5 @@
 using FluentValidation.AspNetCore;
+using ShoppingApp.Application;
 using ShoppingApp.Application.Validators.Products;
 using ShoppingApp.Infrastructure;
 using ShoppingApp.Infrastructure.Enums;
@@ -14,6 +15,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddInfrastructureServices();
 
 builder.Services.AddPersistenceServices();
+
+builder.Services.AddApplicationServices();
 
 //builder.Services.AddStorage<LocalStorage>();
 builder.Services.AddStorage<AzureStorage>();

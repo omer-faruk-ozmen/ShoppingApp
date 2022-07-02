@@ -18,7 +18,7 @@ namespace ShoppingApp.Infrastructure.Services.Storage.Azure
 
         public AzureStorage(IConfiguration configuration)
         {
-            _blobServiceClient = new(configuration["Storage:Azure"]);
+            _blobServiceClient = new(configuration["Storage:Azure:ConnectionString"]);
         }
 
         public async Task<List<(string fileName, string pathOrContainerName)>> UploadAsync(string containerName, IFormFileCollection files)
