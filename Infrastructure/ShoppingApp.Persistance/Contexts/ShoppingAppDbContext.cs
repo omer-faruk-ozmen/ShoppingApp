@@ -4,15 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using ShoppingApp.Domain.Entities;
 using ShoppingApp.Domain.Entities.Common;
 using ShoppingApp.Domain.Entities.File;
+using ShoppingApp.Domain.Entities.Identity;
 using File = ShoppingApp.Domain.Entities.File.File;
 
 namespace ShoppingApp.Persistence.Contexts
 {
-    public class ShoppingAppDbContext : DbContext   
+    public class ShoppingAppDbContext : IdentityDbContext<AppUser,AppRole,string>   
     {
         public ShoppingAppDbContext(DbContextOptions options):base(options)
         {}

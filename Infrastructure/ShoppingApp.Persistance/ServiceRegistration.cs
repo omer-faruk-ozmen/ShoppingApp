@@ -13,6 +13,7 @@ using ShoppingApp.Application.Repositories.File.ProductImageFile;
 using ShoppingApp.Application.Repositories.FileRepositories.InvoiceFile;
 using ShoppingApp.Application.Repositories.Order;
 using ShoppingApp.Application.Repositories.Product;
+using ShoppingApp.Domain.Entities.Identity;
 using ShoppingApp.Persistence.Repositories.Customer;
 using ShoppingApp.Persistence.Repositories.File;
 using ShoppingApp.Persistence.Repositories.File.InvoiceFile;
@@ -28,6 +29,16 @@ namespace ShoppingApp.Persistence
         public static void AddPersistenceServices(this IServiceCollection services)
         {
             services.AddDbContext<ShoppingAppDbContext>(options => options.UseNpgsql(Configuration.ConnectionString));
+
+            services.AddIdentity<AppUser, AppRole>(options =>
+            {
+                options.Password.RequireNonAlphanumeric=false;
+                options.Password.RequireUppercase=false;
+                options.Password.RequireLowercase=false;
+                options.Password.RequireDigit = false;
+                options.User.RequireUniqueEmail = true;
+            }).AddEntityFrameworkStores<ShoppingAppDbContext>();
+
             services.AddScoped<ICustomerReadRepository, CustomerReadRepository>();
             services.AddScoped<ICustomerWriteRepository, CustomerWriteRepository>();
             services.AddScoped<IOrderReadRepository, OrderReadRepository>();
