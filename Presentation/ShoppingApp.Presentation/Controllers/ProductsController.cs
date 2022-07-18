@@ -16,6 +16,7 @@ using ShoppingApp.Domain.Entities.File;
 using ShoppingApp.Infrastructure.Services;
 using File = ShoppingApp.Domain.Entities.File.File;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using ShoppingApp.Application.Features.Commands.Product.CreateProduct;
 using ShoppingApp.Application.Features.Commands.Product.RemoveProduct;
 using ShoppingApp.Application.Features.Commands.Product.UpdateProduct;
@@ -29,43 +30,20 @@ namespace ShoppingApp.Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Admin")]
     public class ProductsController : ControllerBase
     {
-        private readonly IProductWriteRepository _productWriteRepository;
-        private readonly IProductReadRepository _productReadRepository;
-        private readonly IFileReadRepository _fileReadRepository;
-        private readonly IFileWriteRepository _fileWriteRepository;
-        private readonly IProductImageFileReadRepository _productImageFileReadRepository;
-        private readonly IProductImageFileWriteRepository _productImageFileWriteRepository;
-        private readonly IInvoiceFileReadRepository _invoiceFileReadRepository;
-        private readonly IInvoiceFileWriteRepository _invoiceFileWriteRepository;
-        private readonly IStorageService _storageService;
-        private readonly IConfiguration _configuration;
+
+
 
 
         readonly IMediator _mediator;
 
         public ProductsController(
-            IProductWriteRepository productWriteRepository,
-            IProductReadRepository productReadRepository,
-            IFileReadRepository fileReadRepository,
-            IFileWriteRepository fileWriteRepository,
-            IProductImageFileReadRepository productImageFileReadRepository,
-            IProductImageFileWriteRepository productImageFileWriteRepository,
-            IInvoiceFileReadRepository invoiceFileReadRepository,
-            IInvoiceFileWriteRepository invoiceFileWriteRepository,
-            IStorageService storageService, IConfiguration configuration, IMediator mediator)
+            IMediator mediator)
         {
-            _productWriteRepository = productWriteRepository;
-            _productReadRepository = productReadRepository;
-            _fileReadRepository = fileReadRepository;
-            _fileWriteRepository = fileWriteRepository;
-            _productImageFileReadRepository = productImageFileReadRepository;
-            _productImageFileWriteRepository = productImageFileWriteRepository;
-            _invoiceFileReadRepository = invoiceFileReadRepository;
-            _invoiceFileWriteRepository = invoiceFileWriteRepository;
-            _storageService = storageService;
-            _configuration = configuration;
+
+
             _mediator = mediator;
         }
 
@@ -97,7 +75,7 @@ namespace ShoppingApp.Presentation.Controllers
         {
 
             UpdateProductCommandResponse response = await _mediator.Send(updateProductCommandRequest);
-            
+
             return Ok();
         }
 
@@ -114,9 +92,9 @@ namespace ShoppingApp.Presentation.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Upload([FromQuery] UploadProductImageCommandRequest uploadProductImageCommandRequest)
         {
-            uploadProductImageCommandRequest.Files=Request.Form.Files;
+            uploadProductImageCommandRequest.Files = Request.Form.Files;
 
-            UploadProductImageCommandResponse response= await _mediator.Send(uploadProductImageCommandRequest);
+            UploadProductImageCommandResponse response = await _mediator.Send(uploadProductImageCommandRequest);
 
             return Ok();
         }
@@ -126,7 +104,7 @@ namespace ShoppingApp.Presentation.Controllers
         [HttpGet("[action]/{id}")]
         public async Task<IActionResult> GetProductImages([FromRoute] GetProductImagesQueryRequest getProductImagesQueryRequest)
         {
-            List<GetProductImagesQueryResponse> response= await _mediator.Send(getProductImagesQueryRequest);
+            List<GetProductImagesQueryResponse> response = await _mediator.Send(getProductImagesQueryRequest);
             return Ok(response);
 
         }
@@ -136,7 +114,7 @@ namespace ShoppingApp.Presentation.Controllers
         {
             removeProductImageCommandRequest.ImageId = imageId;
 
-            RemoveProductImageCommandResponse response= await _mediator.Send(removeProductImageCommandRequest);
+            RemoveProductImageCommandResponse response = await _mediator.Send(removeProductImageCommandRequest);
 
             return Ok();
         }

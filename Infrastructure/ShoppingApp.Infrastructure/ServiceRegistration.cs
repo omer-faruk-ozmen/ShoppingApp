@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using ShoppingApp.Application.Abstractions.Storage;
+using ShoppingApp.Application.Abstractions.Token;
 using ShoppingApp.Infrastructure.Enums;
 using ShoppingApp.Infrastructure.Services;
 using ShoppingApp.Infrastructure.Services.Storage;
 using ShoppingApp.Infrastructure.Services.Storage.Azure;
 using ShoppingApp.Infrastructure.Services.Storage.Local;
+using TokenHandler = ShoppingApp.Infrastructure.Services.Token.TokenHandler;
 
 namespace ShoppingApp.Infrastructure
 {
@@ -18,6 +21,7 @@ namespace ShoppingApp.Infrastructure
         public static void AddInfrastructureServices(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddScoped<IStorageService, StorageService>();
+            serviceCollection.AddScoped<ITokenHandler, TokenHandler>();
         }
 
         public static void AddStorage<T>(this IServiceCollection serviceCollection) where T : Storage,IStorage

@@ -1,4 +1,7 @@
+using System.Text;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using ShoppingApp.Application;
 using ShoppingApp.Application.Validators.Products;
 using ShoppingApp.Infrastructure;
@@ -33,6 +36,23 @@ builder.Services.AddControllers(options=>options.Filters.Add<ValidationFilter>()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer("Admin", options =>
+    {
+        options.TokenValidationParameters = new()
+        {
+            ValidateAudience = true,
+            ValidateIssuer = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+
+            ValidAudience = builder.Configuration["JWT:ValidAudience"] ,
+            ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:IssuerSigningKey"])),
+        };
+    });
+
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -46,6 +66,8 @@ app.UseStaticFiles();
 app.UseCors();
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
