@@ -33,10 +33,7 @@ namespace ShoppingApp.Presentation.Controllers
     [Authorize(AuthenticationSchemes = "Admin")]
     public class ProductsController : ControllerBase
     {
-
-
-
-
+        
         readonly IMediator _mediator;
 
         public ProductsController(
