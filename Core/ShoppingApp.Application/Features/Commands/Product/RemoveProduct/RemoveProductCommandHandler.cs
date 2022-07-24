@@ -19,7 +19,7 @@ namespace ShoppingApp.Application.Features.Commands.Product.RemoveProduct
 
         public async Task<RemoveProductCommandResponse> Handle(RemoveProductCommandRequest request, CancellationToken cancellationToken)
         {
-            await _productWriteRepository.RemoveAsync(request.Id);
+            await _productWriteRepository.RemoveAsync(request.Id!);
             await _productWriteRepository.SaveAsync();
 
             return new RemoveProductCommandResponse();

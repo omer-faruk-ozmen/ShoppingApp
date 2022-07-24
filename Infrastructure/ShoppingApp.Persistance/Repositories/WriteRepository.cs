@@ -47,7 +47,7 @@ namespace ShoppingApp.Persistence.Repositories
 
         public async Task<bool> RemoveAsync(string id)
         {
-            T entity = await Table.FirstOrDefaultAsync(entity => entity.Id == Guid.Parse(id));
+            T entity = await Table.FirstOrDefaultAsync(entity => entity.Id == Guid.Parse(id)) ?? throw new InvalidOperationException();
             return Remove(entity);
         }
 

@@ -22,7 +22,7 @@ namespace ShoppingApp.Application.Features.Commands.Product.UpdateProduct
 
         public async Task<UpdateProductCommandResponse> Handle(UpdateProductCommandRequest request, CancellationToken cancellationToken)
         {
-            P.Product? product = await _productReadRepository.GetByIdAsync(request.Id);
+            P.Product? product = await _productReadRepository.GetByIdAsync(request.Id!);
 
             if (product != null)
             {

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShoppingApp.Application.Features.Commands.AppUser.CreateUser
+namespace ShoppingApp.Application.DTOs.User
 {
-    public class CreateUserCommandResponse
+    public class CreateUserResponseDto
     {
         public bool Succeeded { get; set; }
         public string? Message { get; set; }

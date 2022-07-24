@@ -8,6 +8,6 @@ namespace ShoppingApp.Domain.Entities.File
 {
     public class ProductImageFile:File
     {
-        public ICollection<Product> Products { get; set; }
+        public ICollection<Product>? Products { get; set; }
     }
 }

@@ -25,13 +25,13 @@ namespace ShoppingApp.Application.Features.Commands.ProductImageFile.RemoveProdu
         public async Task<RemoveProductImageCommandResponse> Handle(RemoveProductImageCommandRequest request, CancellationToken cancellationToken)
         {
             P.Product? product = await _productReadRepository.Table.Include(p => p.ProductImageFiles)
-                .FirstOrDefaultAsync(p => p.Id == Guid.Parse(request.Id), cancellationToken: cancellationToken);
+                .FirstOrDefaultAsync(p => p.Id == Guid.Parse(request.Id!), cancellationToken: cancellationToken);
             
             
-            I.ProductImageFile? productImageFile = product?.ProductImageFiles.FirstOrDefault(p => p.Id == Guid.Parse(request.ImageId));
+            I.ProductImageFile? productImageFile = product?.ProductImageFiles!.FirstOrDefault(p => p.Id == Guid.Parse(request.ImageId!));
             
             if(productImageFile != null)
-                product?.ProductImageFiles.Remove(productImageFile);
+                product!.ProductImageFiles!.Remove(productImageFile);
 
 
             await _productWriteRepository.SaveAsync();

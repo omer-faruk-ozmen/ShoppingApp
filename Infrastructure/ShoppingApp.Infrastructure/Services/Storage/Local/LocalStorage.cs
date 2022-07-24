@@ -10,7 +10,7 @@ using ShoppingApp.Infrastructure.Operations;
 
 namespace ShoppingApp.Infrastructure.Services.Storage.Local
 {
-    public class LocalStorage :Storage, ILocalStorage
+    public class LocalStorage : Storage, ILocalStorage
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
 
@@ -54,7 +54,7 @@ namespace ShoppingApp.Infrastructure.Services.Storage.Local
             catch (Exception e)
             {
                 //Todo log!
-                throw e;
+                throw new Exception($"{e}");
             }
 
 
@@ -139,7 +139,7 @@ namespace ShoppingApp.Infrastructure.Services.Storage.Local
             return directory.GetFiles().Select(f => f.Name).ToList();
         }
 
-        public bool HasFile(string path, string fileName)
+        public new bool HasFile(string path, string fileName)
             => File.Exists($"{path}\\{fileName}");
     }
 }

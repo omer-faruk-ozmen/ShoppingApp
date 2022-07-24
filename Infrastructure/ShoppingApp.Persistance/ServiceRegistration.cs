@@ -7,6 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using ShoppingApp.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using ShoppingApp.Application.Abstractions.Services;
+using ShoppingApp.Application.Abstractions.Services.Authentication;
 using ShoppingApp.Application.Repositories.Customer;
 using ShoppingApp.Application.Repositories.File;
 using ShoppingApp.Application.Repositories.File.ProductImageFile;
@@ -20,6 +22,7 @@ using ShoppingApp.Persistence.Repositories.File.InvoiceFile;
 using ShoppingApp.Persistence.Repositories.File.ProductImageFile;
 using ShoppingApp.Persistence.Repositories.Order;
 using ShoppingApp.Persistence.Repositories.Product;
+using ShoppingApp.Persistence.Services;
 
 namespace ShoppingApp.Persistence
 {
@@ -32,9 +35,9 @@ namespace ShoppingApp.Persistence
 
             services.AddIdentity<AppUser, AppRole>(options =>
             {
-                options.Password.RequireNonAlphanumeric=false;
-                options.Password.RequireUppercase=false;
-                options.Password.RequireLowercase=false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
                 options.Password.RequireDigit = false;
                 options.User.RequireUniqueEmail = true;
             }).AddEntityFrameworkStores<ShoppingAppDbContext>();
@@ -51,6 +54,11 @@ namespace ShoppingApp.Persistence
             services.AddScoped<IProductImageFileWriteRepository, ProductImageFileWriteRepository>();
             services.AddScoped<IInvoiceFileReadRepository, InvoiceFileReadRepository>();
             services.AddScoped<IInvoiceFileWriteRepository, InvoiceFileWriteRepository>();
+
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IExternalAuthentication, AuthService>();
+            services.AddScoped<IInternalAuthentication, AuthService>();
 
         }
     }

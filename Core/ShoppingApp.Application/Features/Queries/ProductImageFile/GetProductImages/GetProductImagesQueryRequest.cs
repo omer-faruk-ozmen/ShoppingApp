@@ -9,6 +9,6 @@ namespace ShoppingApp.Application.Features.Queries.ProductImageFile.GetProductIm
 {
     public class GetProductImagesQueryRequest:IRequest<List<GetProductImagesQueryResponse>>
     {
-        public string Id { get; set; }
+        public string? Id { get; set; }
     }
 }

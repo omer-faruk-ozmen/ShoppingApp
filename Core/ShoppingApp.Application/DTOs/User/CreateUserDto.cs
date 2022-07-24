@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MediatR;
 
-namespace ShoppingApp.Application.Features.Commands.AppUser.CreateUser
+namespace ShoppingApp.Application.DTOs.User
 {
-    public class CreateUserCommandRequest:IRequest<CreateUserCommandResponse>
+    public class CreateUserDto
     {
         public string? FirstName { get; set; }
         public string? LastName { get; set; }

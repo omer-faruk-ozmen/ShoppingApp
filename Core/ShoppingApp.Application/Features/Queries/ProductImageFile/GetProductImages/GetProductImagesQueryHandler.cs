@@ -23,19 +23,19 @@ namespace ShoppingApp.Application.Features.Queries.ProductImageFile.GetProductIm
             _configuration = configuration;
         }
 
-        public async Task<List<GetProductImagesQueryResponse>?> Handle(GetProductImagesQueryRequest request, CancellationToken cancellationToken)
+        public async Task<List<GetProductImagesQueryResponse>> Handle(GetProductImagesQueryRequest request, CancellationToken cancellationToken)
         {
              P.Product? product = await _productReadRepository.Table.Include(p => p.ProductImageFiles)
-                .FirstOrDefaultAsync(p => p.Id == Guid.Parse(request.Id));
+                .FirstOrDefaultAsync(p => p.Id == Guid.Parse(request.Id!), cancellationToken: cancellationToken);
 
              
 
-            return product?.ProductImageFiles.Select(p => new GetProductImagesQueryResponse
+            return product?.ProductImageFiles!.Select(p => new GetProductImagesQueryResponse
             {
                 Path = $"{_configuration["Storage:Azure:BaseUrl"]}{p.Path}",
                 FileName = p.FileName,
                 Id = p.Id
-            }).ToList();
+            }).ToList() ?? throw new InvalidOperationException();
         }
     }
 }

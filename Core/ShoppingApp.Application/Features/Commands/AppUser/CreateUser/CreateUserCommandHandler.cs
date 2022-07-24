@@ -5,47 +5,39 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using ShoppingApp.Application.Abstractions.Services;
+using ShoppingApp.Application.DTOs.User;
 using User = ShoppingApp.Domain.Entities.Identity;
 
 namespace ShoppingApp.Application.Features.Commands.AppUser.CreateUser
 {
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommandRequest, CreateUserCommandResponse>
     {
-        private readonly UserManager<User.AppUser> _userManager;
+        private readonly IUserService _userService;
 
-        public CreateUserCommandHandler(UserManager<User.AppUser> userManager)
+        public CreateUserCommandHandler(IUserService userService)
         {
-            _userManager = userManager;
+            _userService = userService;
         }
 
         public async Task<CreateUserCommandResponse> Handle(CreateUserCommandRequest request, CancellationToken cancellationToken)
         {
-            IdentityResult result = await _userManager.CreateAsync(new()
+            CreateUserResponseDto response = await _userService.CreateAsync(new()
             {
-                Id=Guid.NewGuid().ToString(),
-                UserName = request.UserName,
                 Email = request.Email,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
-            }, request.Password);
+                Password = request.Password,
+                UserName = request.UserName
+            });
 
-            CreateUserCommandResponse response = new CreateUserCommandResponse(){Succeeded = result.Succeeded};
-
-            if (result.Succeeded)
+            return new()
             {
-                response.Message = "User successfully created";
-            }
+                Message = response.Message,
+                Succeeded = response.Succeeded
+            };
 
-            else
-            {
-                foreach (var error in result.Errors)
-                {
-                    response.Message += $"{error.Code} - {error.Description}\n";
-                }
-            }
-            return response;
-
-            //throw new UserCreateFailedException();
+            
         }
     }
 }
