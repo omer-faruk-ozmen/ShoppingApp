@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using ShoppingApp.Application.Abstractions.Services;
 using ShoppingApp.Application.Abstractions.Token;
@@ -22,13 +23,15 @@ namespace ShoppingApp.Persistence.Services
         private readonly IConfiguration _configuration;
         readonly ITokenHandler _tokenHandler;
         private readonly SignInManager<AppUser> _signInManager;
+        readonly IUserService _userService;
 
-        public AuthService(UserManager<AppUser> userManager, IConfiguration configuration, ITokenHandler tokenHandler, SignInManager<AppUser> signInManager)
+        public AuthService(UserManager<AppUser> userManager, IConfiguration configuration, ITokenHandler tokenHandler, SignInManager<AppUser> signInManager, IUserService userService)
         {
             _userManager = userManager;
             _configuration = configuration;
             _tokenHandler = tokenHandler;
             _signInManager = signInManager;
+            _userService = userService;
         }
 
         async Task<Token> CreateUserExternalAsync(AppUser user, string email, string firstName, string lastName, UserLoginInfo info, int accessTokenLifeTime)
@@ -58,6 +61,7 @@ namespace ShoppingApp.Persistence.Services
             {
                 await _userManager.AddLoginAsync(user, info);
                 Token token = _tokenHandler.CreateAccessToken(accessTokenLifeTime);
+                await _userService.UpdateRefreshToken(token.RefreshToken!, user, token.Expiration, 15);
                 return token;
             }
 
@@ -78,7 +82,7 @@ namespace ShoppingApp.Persistence.Services
 
             var info = new UserLoginInfo(provider, payload.Subject, provider);
 
-            Domain.Entities.Identity.AppUser user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+            AppUser user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
 
             return await CreateUserExternalAsync(user, payload.Email, payload.GivenName!, payload.FamilyName!, info, accessTokenLifeTime);
 
@@ -100,11 +104,28 @@ namespace ShoppingApp.Persistence.Services
             {
                 //Authorization
                 Token token = _tokenHandler.CreateAccessToken(accessTokenLifeTime);
-
+                await _userService.UpdateRefreshToken(token.RefreshToken!, user, token.Expiration, 15);
                 return token;
             }
 
             throw new AuthenticationErrorException();
+        }
+
+        public async Task<Token> RefreshTokenLoginAsync(string refreshToken)
+        {
+            AppUser? user = await _userManager.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
+
+            if (user != null && user.RefreshTokenEndDate > DateTime.UtcNow)
+            {
+                Token token = _tokenHandler.CreateAccessToken(15);
+                await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 15);
+                return token;
+            }
+            else
+            {
+                throw new NotFoundUserException();
+            }
+
         }
     }
 }

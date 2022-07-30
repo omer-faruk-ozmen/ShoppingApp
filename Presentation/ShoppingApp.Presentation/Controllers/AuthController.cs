@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using ShoppingApp.Application.Features.Commands.AppUser.CreateUser;
 using ShoppingApp.Application.Features.Commands.AppUser.GoogleLogin;
 using ShoppingApp.Application.Features.Commands.AppUser.LoginUser;
+using ShoppingApp.Application.Features.Commands.AppUser.RefreshTokenLogin;
 
 namespace ShoppingApp.Presentation.Controllers
 {
@@ -15,6 +16,13 @@ namespace ShoppingApp.Presentation.Controllers
         public AuthController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> RefreshTokenLogin([FromBody]RefreshTokenLoginCommandRequest refreshTokenLoginCommandRequest)
+        {
+            RefreshTokenLoginCommandResponse response = await _mediator.Send(refreshTokenLoginCommandRequest);
+            return Ok(response);
         }
 
         [HttpPost]

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using ShoppingApp.Application.Abstractions.Services;
 using ShoppingApp.Application.DTOs.User;
+using ShoppingApp.Application.Exceptions;
 using ShoppingApp.Application.Features.Commands.AppUser.CreateUser;
 using ShoppingApp.Domain.Entities.Identity;
 
@@ -31,7 +32,7 @@ namespace ShoppingApp.Persistence.Services
                 LastName = model.LastName,
             }, model.Password);
 
-            CreateUserResponseDto response = new () { Succeeded = result.Succeeded };
+            CreateUserResponseDto response = new() { Succeeded = result.Succeeded };
 
             if (result.Succeeded)
             {
@@ -47,6 +48,24 @@ namespace ShoppingApp.Persistence.Services
             }
 
             return response;
+        }
+
+        public async Task<bool> UpdateRefreshToken(string refreshToken, AppUser? user, DateTime accessTokenDate, int addOnAccessTokenDateTime)
+        {
+            if (user != null)
+            {
+                user.RefreshToken = refreshToken;
+                user.RefreshTokenEndDate = accessTokenDate.AddMinutes(addOnAccessTokenDateTime);
+                await _userManager.UpdateAsync(user);
+                return true;
+            }
+            else
+            {
+                throw new NotFoundUserException();
+            }
+
+
+
         }
     }
 }
