@@ -5,16 +5,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace ShoppingApp.Application.Features.Queries.Product.GetAllProduct
 {
     public class GetAllProductQueryHandler : IRequestHandler<GetAllProductQueryRequest, GetAllProductQueryResponse>
     {
         readonly IProductReadRepository _productReadRepository;
-
-        public GetAllProductQueryHandler(IProductReadRepository productReadRepository)
+        readonly ILogger<GetAllProductQueryHandler> _logger;
+        public GetAllProductQueryHandler(IProductReadRepository productReadRepository, ILogger<GetAllProductQueryHandler> logger)
         {
             _productReadRepository = productReadRepository;
+            _logger = logger;
         }
 
 
@@ -35,6 +37,7 @@ namespace ShoppingApp.Application.Features.Queries.Product.GetAllProduct
                     p.UpdatedDate
                 }).ToList();
 
+            _logger.LogInformation("Get all Products");
             return new()
             {
                 Products = products,

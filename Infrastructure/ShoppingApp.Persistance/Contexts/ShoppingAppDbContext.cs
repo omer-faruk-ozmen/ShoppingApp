@@ -14,16 +14,16 @@ using File = ShoppingApp.Domain.Entities.File.File;
 
 namespace ShoppingApp.Persistence.Contexts
 {
-    public class ShoppingAppDbContext : IdentityDbContext<AppUser,AppRole,string>   
+    public class ShoppingAppDbContext : IdentityDbContext<AppUser, AppRole, string>
     {
-        public ShoppingAppDbContext(DbContextOptions options):base(options)
-        {}
+        public ShoppingAppDbContext(DbContextOptions options) : base(options)
+        { }
 
         public DbSet<Product>? Products { get; set; }
         public DbSet<Order>? Orders { get; set; }
         public DbSet<Customer>? Customers { get; set; }
 
-        public DbSet<File>? Files{ get; set; }
+        public DbSet<File>? Files { get; set; }
         public DbSet<ProductImageFile>? ProductImages { get; set; }
         public DbSet<InvoiceFile>? InvoiceFiles { get; set; }
 
@@ -35,12 +35,12 @@ namespace ShoppingApp.Persistence.Contexts
             {
                 _ = data.State switch
                 {
-                    EntityState.Added=>data.Entity.CreatedDate=DateTime.UtcNow,
-                    EntityState.Modified=>data.Entity.UpdatedDate=DateTime.UtcNow,
-                    _=>DateTime.UtcNow
+                    EntityState.Added => data.Entity.CreatedDate = DateTime.UtcNow,
+                    EntityState.Modified => data.Entity.UpdatedDate = DateTime.UtcNow,
+                    _ => DateTime.UtcNow
                 };
             }
-            return await base.SaveChangesAsync(cancellationToken); 
+            return await base.SaveChangesAsync(cancellationToken);
         }
     }
 }

@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using ShoppingApp.Application.Abstractions.Token;
+using ShoppingApp.Domain.Entities.Identity;
 
 namespace ShoppingApp.Infrastructure.Services.Token
 {
@@ -20,7 +22,7 @@ namespace ShoppingApp.Infrastructure.Services.Token
             _configuration = configuration;
         }
 
-        public Application.DTOs.Token CreateAccessToken(int minute)
+        public Application.DTOs.Token CreateAccessToken(int minute, AppUser user)
         {
             Application.DTOs.Token token = new();
 
@@ -37,7 +39,11 @@ namespace ShoppingApp.Infrastructure.Services.Token
                 audience: _configuration["JWT:ValidAudience"],
                 issuer: _configuration["JWT:ValidIssuer"],
                 expires: token.Expiration,
-                signingCredentials: signingCredentials);
+                signingCredentials: signingCredentials,
+                claims: new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, user.UserName)
+                });
 
             JwtSecurityTokenHandler tokenHandler = new();
             token.AccessToken = tokenHandler.WriteToken(securityToken);
