@@ -25,4 +25,8 @@
     <ProjectReference Include="..\..\Infrastructure\ShoppingApp.Persistance\ShoppingApp.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Middlewares\" />
+  </ItemGroup>
+
 </Project>

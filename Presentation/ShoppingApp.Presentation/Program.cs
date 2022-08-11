@@ -3,12 +3,14 @@ using System.Text;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Serilog.Context;
 using Serilog.Core;
 using Serilog.Sinks.PostgreSQL;
 using ShoppingApp.Application;
+using ShoppingApp.Application.Features.Commands.AppUser.LoginUser;
 using ShoppingApp.Application.Validators.Products;
 using ShoppingApp.Infrastructure;
 using ShoppingApp.Infrastructure.Enums;
@@ -18,6 +20,8 @@ using ShoppingApp.Infrastructure.Services.Storage.Local;
 using ShoppingApp.Persistence;
 using ShoppingApp.Presentation;
 using ShoppingApp.Presentation.Configurations.ColumnWriters;
+using ShoppingApp.Presentation.Extensions;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +42,7 @@ builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
 ));
 
 Logger log = new LoggerConfiguration()
+
     .WriteTo.PostgreSQL(builder.Configuration.GetConnectionString("ShoppingAppLogDb"), "Logs", needAutoCreateTable: true,
         columnOptions: new Dictionary<string, ColumnWriterBase>
         {
@@ -52,6 +57,7 @@ Logger log = new LoggerConfiguration()
 
     .WriteTo.File("logs/log.txt")
     .WriteTo.Seq(builder.Configuration["Seq:ServerUrl"])
+
     .Enrich.FromLogContext()
     .MinimumLevel.Information()
     .CreateLogger();
@@ -102,6 +108,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.ConfigureExcepitonHandler<Program>(app.Services.GetRequiredService<ILogger<Program>>());
 
 app.UseStaticFiles();
 
