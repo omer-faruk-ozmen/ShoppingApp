@@ -20,7 +20,7 @@ namespace ShoppingApp.Application.Features.Queries.Product.GetAllProduct
 
         public async Task<GetAllProductQueryResponse> Handle(GetAllProductQueryRequest request, CancellationToken cancellationToken)
         {
-            throw new Exception();
+
             var totalCount = _productReadRepository.GetAll(false).Count();
             var products = _productReadRepository
                 .GetAll(false)

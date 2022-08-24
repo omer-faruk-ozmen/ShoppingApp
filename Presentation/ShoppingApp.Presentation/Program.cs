@@ -3,25 +3,21 @@ using System.Text;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpLogging;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Serilog.Context;
 using Serilog.Core;
 using Serilog.Sinks.PostgreSQL;
 using ShoppingApp.Application;
-using ShoppingApp.Application.Features.Commands.AppUser.LoginUser;
 using ShoppingApp.Application.Validators.Products;
 using ShoppingApp.Infrastructure;
-using ShoppingApp.Infrastructure.Enums;
 using ShoppingApp.Infrastructure.Filters;
 using ShoppingApp.Infrastructure.Services.Storage.Azure;
-using ShoppingApp.Infrastructure.Services.Storage.Local;
 using ShoppingApp.Persistence;
-using ShoppingApp.Presentation;
 using ShoppingApp.Presentation.Configurations.ColumnWriters;
 using ShoppingApp.Presentation.Extensions;
-using Swashbuckle.AspNetCore.SwaggerGen;
+using ShoppingApp.SignalR;
+using ShoppingApp.SignalR.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,12 +28,14 @@ builder.Services.AddPersistenceServices();
 
 builder.Services.AddApplicationServices();
 
+builder.Services.AddSignalRServices();
+
 //builder.Services.AddStorage<LocalStorage>();
 builder.Services.AddStorage<AzureStorage>();
 
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
 
-    policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod()
+    policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials()
 
 ));
 
@@ -135,5 +133,7 @@ app.Use(async (context, next) =>
 });
 
 app.MapControllers();
+
+app.MapHubs();
 
 app.Run();

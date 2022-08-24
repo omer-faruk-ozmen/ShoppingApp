@@ -23,10 +23,7 @@
     <ProjectReference Include="..\..\Core\ShoppingApp.Application\ShoppingApp.Application.csproj" />
     <ProjectReference Include="..\..\Infrastructure\ShoppingApp.Infrastructure\ShoppingApp.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\ShoppingApp.Persistance\ShoppingApp.Persistence.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Middlewares\" />
+    <ProjectReference Include="..\..\Infrastructure\ShoppingApp.SignalR\ShoppingApp.SignalR.csproj" />
   </ItemGroup>
 
 </Project>

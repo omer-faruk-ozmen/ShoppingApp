@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using ShoppingApp.Application.Abstractions.Hubs;
 using ShoppingApp.Application.Repositories.Product;
 using ShoppingApp.Domain.Entities;
 
@@ -14,10 +15,12 @@ namespace ShoppingApp.Application.Features.Commands.Product.CreateProduct
     {
         private readonly IProductWriteRepository _productWriteRepository;
         private readonly ILogger<CreateProductCommandHandler> _logger;
-        public CreateProductCommandHandler(IProductWriteRepository productWriteRepository, ILogger<CreateProductCommandHandler> logger)
+        private readonly IProductHubService _productHubService;
+        public CreateProductCommandHandler(IProductWriteRepository productWriteRepository, ILogger<CreateProductCommandHandler> logger, IProductHubService productHubService)
         {
             _productWriteRepository = productWriteRepository;
             _logger = logger;
+            _productHubService = productHubService;
         }
 
         public async Task<CreateProductCommandResponse> Handle(CreateProductCommandRequest request, CancellationToken cancellationToken)
@@ -31,6 +34,9 @@ namespace ShoppingApp.Application.Features.Commands.Product.CreateProduct
             await _productWriteRepository.SaveAsync();
 
             _logger.LogInformation("Product Added!");
+
+            await _productHubService.ProductAddedMessageAsync($"Product named {request.Name} has been added");
+
             return new();
         }
     }
