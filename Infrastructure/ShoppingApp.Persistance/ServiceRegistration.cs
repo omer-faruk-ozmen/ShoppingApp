@@ -33,6 +33,10 @@ namespace ShoppingApp.Persistence
         {
             services.AddDbContext<ShoppingAppDbContext>(options => options.UseNpgsql(Configuration.ConnectionString));
 
+
+            var seedData = new SeedData();
+            seedData.SeedAsync().GetAwaiter().GetResult();
+
             services.AddIdentity<AppUser, AppRole>(options =>
             {
                 options.Password.RequireNonAlphanumeric = false;

@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace ShoppingApp.Domain.Entities.File
 {
-    public class ProductImageFile:File
+    public class ProductImageFile : File
     {
-        public ICollection<Product>? Products { get; set; }
+        public bool Showcase { get; set; }
+        public ICollection<Product> Products { get; set; }
     }
 }

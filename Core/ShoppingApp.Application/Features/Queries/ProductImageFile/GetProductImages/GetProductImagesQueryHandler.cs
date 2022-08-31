@@ -32,7 +32,7 @@ namespace ShoppingApp.Application.Features.Queries.ProductImageFile.GetProductIm
 
             return product?.ProductImageFiles!.Select(p => new GetProductImagesQueryResponse
             {
-                Path = $"{_configuration["Storage:Azure:BaseUrl"]}{p.Path}",
+                Path = $"{_configuration["Storage:Azure:BaseUrl"]}/{p.Path}",
                 FileName = p.FileName,
                 Id = p.Id
             }).ToList() ?? throw new InvalidOperationException();

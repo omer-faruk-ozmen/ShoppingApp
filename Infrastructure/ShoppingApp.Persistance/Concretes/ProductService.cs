@@ -13,6 +13,8 @@ namespace ShoppingApp.Persistence.Concretes
     {
         public List<Product> GetProducts() => new()
         {
+            
+
             new()
             {
                 Id=Guid.NewGuid(),

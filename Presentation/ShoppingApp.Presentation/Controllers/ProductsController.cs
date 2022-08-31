@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Authorization;
 using ShoppingApp.Application.Features.Commands.Product.CreateProduct;
 using ShoppingApp.Application.Features.Commands.Product.RemoveProduct;
 using ShoppingApp.Application.Features.Commands.Product.UpdateProduct;
+using ShoppingApp.Application.Features.Commands.ProductImageFile.ChangeShowcaseImage;
 using ShoppingApp.Application.Features.Commands.ProductImageFile.RemoveProductImage;
 using ShoppingApp.Application.Features.Commands.ProductImageFile.UploadProductImage;
 using ShoppingApp.Application.Features.Queries.Product.GetAllProduct;
@@ -30,7 +31,6 @@ namespace ShoppingApp.Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = "Admin")]
     public class ProductsController : ControllerBase
     {
         
@@ -58,7 +58,9 @@ namespace ShoppingApp.Presentation.Controllers
             return Ok(response);
         }
 
+
         [HttpPost]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> Post(CreateProductCommandRequest createProductCommandRequest)
         {
             CreateProductCommandResponse response = await _mediator.Send(createProductCommandRequest);
@@ -68,6 +70,7 @@ namespace ShoppingApp.Presentation.Controllers
 
 
         [HttpPut]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> Put([FromBody] UpdateProductCommandRequest updateProductCommandRequest)
         {
 
@@ -78,6 +81,7 @@ namespace ShoppingApp.Presentation.Controllers
 
 
         [HttpDelete("{Id}")]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> Delete([FromRoute] RemoveProductCommandRequest removeProductCommandRequest)
         {
             RemoveProductCommandResponse response = await _mediator.Send(removeProductCommandRequest);
@@ -87,6 +91,7 @@ namespace ShoppingApp.Presentation.Controllers
 
 
         [HttpPost("[action]")]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> Upload([FromQuery] UploadProductImageCommandRequest uploadProductImageCommandRequest)
         {
             uploadProductImageCommandRequest.Files = Request.Form.Files;
@@ -99,6 +104,7 @@ namespace ShoppingApp.Presentation.Controllers
 
 
         [HttpGet("[action]/{id}")]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> GetProductImages([FromRoute] GetProductImagesQueryRequest getProductImagesQueryRequest)
         {
             List<GetProductImagesQueryResponse> response = await _mediator.Send(getProductImagesQueryRequest);
@@ -107,6 +113,7 @@ namespace ShoppingApp.Presentation.Controllers
         }
 
         [HttpDelete("[action]/{Id}")]
+        [Authorize(AuthenticationSchemes = "Admin")]
         public async Task<IActionResult> DeleteProductImage([FromRoute] RemoveProductImageCommandRequest removeProductImageCommandRequest, [FromQuery] string imageId)
         {
             removeProductImageCommandRequest.ImageId = imageId;
@@ -114,6 +121,14 @@ namespace ShoppingApp.Presentation.Controllers
             RemoveProductImageCommandResponse response = await _mediator.Send(removeProductImageCommandRequest);
 
             return Ok();
+        }
+
+        [HttpPut("[action]")]
+        [Authorize(AuthenticationSchemes = "Admin")]
+        public async Task<IActionResult> ChangeShowcaseImage([FromQuery] ChangeShowcaseImageCommandRequest changeShowcaseImageCommandRequest)
+        {
+            ChangeShowcaseImageCommandResponse response = await _mediator.Send(changeShowcaseImageCommandRequest);
+            return Ok(response);
         }
 
     }

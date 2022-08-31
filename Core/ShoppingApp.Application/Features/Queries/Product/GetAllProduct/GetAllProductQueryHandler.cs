@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace ShoppingApp.Application.Features.Queries.Product.GetAllProduct
@@ -21,11 +22,12 @@ namespace ShoppingApp.Application.Features.Queries.Product.GetAllProduct
         public async Task<GetAllProductQueryResponse> Handle(GetAllProductQueryRequest request, CancellationToken cancellationToken)
         {
 
-            var totalCount = _productReadRepository.GetAll(false).Count();
+            var totalProductCount = _productReadRepository.GetAll(false).Count();
             var products = _productReadRepository
                 .GetAll(false)
                 .Skip(request.Page * request.Size)
                 .Take(request.Size)
+                .Include(p=>p.ProductImageFiles)
                 .Select(p => new
                 {
                     p.Id,
@@ -33,13 +35,14 @@ namespace ShoppingApp.Application.Features.Queries.Product.GetAllProduct
                     p.Stock,
                     p.Price,
                     p.CreatedDate,
-                    p.UpdatedDate
+                    p.UpdatedDate,
+                    p.ProductImageFiles
                 }).ToList();
 
             return new()
             {
                 Products = products,
-                TotalCount = totalCount
+                TotalProductCount = totalProductCount
             };
         }
     }
