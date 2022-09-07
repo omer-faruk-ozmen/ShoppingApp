@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShoppingApp.Domain.Entities.File
+namespace ShoppingApp.Domain.Entities.File;
+
+public class InvoiceFile:File
 {
-    public class InvoiceFile:File
-    {
-        public decimal Price { get; set; }
-    }
+    public decimal Price { get; set; }
 }
-    

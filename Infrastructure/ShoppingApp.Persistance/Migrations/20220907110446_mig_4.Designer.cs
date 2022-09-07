@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ShoppingApp.Persistence.Contexts;
@@ -11,9 +12,10 @@ using ShoppingApp.Persistence.Contexts;
 namespace ShoppingApp.Persistence.Migrations
 {
     [DbContext(typeof(ShoppingAppDbContext))]
-    partial class ShoppingAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220907110446_mig_4")]
+    partial class mig_4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -167,6 +169,9 @@ namespace ShoppingApp.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("timestamp with time zone");
 
@@ -175,6 +180,9 @@ namespace ShoppingApp.Persistence.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrderId")
+                        .IsUnique();
 
                     b.HasIndex("UserId");
 
@@ -365,10 +373,14 @@ namespace ShoppingApp.Persistence.Migrations
             modelBuilder.Entity("ShoppingApp.Domain.Entities.Order", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Address")
                         .HasColumnType("text");
+
+                    b.Property<Guid>("BasketId")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
@@ -518,11 +530,19 @@ namespace ShoppingApp.Persistence.Migrations
 
             modelBuilder.Entity("ShoppingApp.Domain.Entities.Basket", b =>
                 {
+                    b.HasOne("ShoppingApp.Domain.Entities.Order", "Order")
+                        .WithOne("Basket")
+                        .HasForeignKey("ShoppingApp.Domain.Entities.Basket", "OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ShoppingApp.Domain.Entities.Identity.AppUser", "User")
                         .WithMany("Baskets")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Order");
 
                     b.Navigation("User");
                 });
@@ -554,23 +574,12 @@ namespace ShoppingApp.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ShoppingApp.Domain.Entities.Basket", "Basket")
-                        .WithOne("Order")
-                        .HasForeignKey("ShoppingApp.Domain.Entities.Order", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Basket");
-
                     b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("ShoppingApp.Domain.Entities.Basket", b =>
                 {
                     b.Navigation("BasketItems");
-
-                    b.Navigation("Order")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("ShoppingApp.Domain.Entities.Customer", b =>
@@ -581,6 +590,12 @@ namespace ShoppingApp.Persistence.Migrations
             modelBuilder.Entity("ShoppingApp.Domain.Entities.Identity.AppUser", b =>
                 {
                     b.Navigation("Baskets");
+                });
+
+            modelBuilder.Entity("ShoppingApp.Domain.Entities.Order", b =>
+                {
+                    b.Navigation("Basket")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ShoppingApp.Domain.Entities.Product", b =>

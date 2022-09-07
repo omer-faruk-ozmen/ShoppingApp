@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ShoppingApp.Persistence.Contexts;
@@ -11,9 +12,10 @@ using ShoppingApp.Persistence.Contexts;
 namespace ShoppingApp.Persistence.Migrations
 {
     [DbContext(typeof(ShoppingAppDbContext))]
-    partial class ShoppingAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220907110850_mig_5")]
+    partial class mig_5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -365,10 +367,14 @@ namespace ShoppingApp.Persistence.Migrations
             modelBuilder.Entity("ShoppingApp.Domain.Entities.Order", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Address")
                         .HasColumnType("text");
+
+                    b.Property<Guid>("BasketId")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
@@ -383,6 +389,9 @@ namespace ShoppingApp.Persistence.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BasketId")
+                        .IsUnique();
 
                     b.HasIndex("CustomerId");
 
@@ -548,15 +557,15 @@ namespace ShoppingApp.Persistence.Migrations
 
             modelBuilder.Entity("ShoppingApp.Domain.Entities.Order", b =>
                 {
-                    b.HasOne("ShoppingApp.Domain.Entities.Customer", "Customer")
-                        .WithMany("Orders")
-                        .HasForeignKey("CustomerId")
+                    b.HasOne("ShoppingApp.Domain.Entities.Basket", "Basket")
+                        .WithOne("Order")
+                        .HasForeignKey("ShoppingApp.Domain.Entities.Order", "BasketId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ShoppingApp.Domain.Entities.Basket", "Basket")
-                        .WithOne("Order")
-                        .HasForeignKey("ShoppingApp.Domain.Entities.Order", "Id")
+                    b.HasOne("ShoppingApp.Domain.Entities.Customer", "Customer")
+                        .WithMany("Orders")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
