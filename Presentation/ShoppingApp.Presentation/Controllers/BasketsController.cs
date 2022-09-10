@@ -11,7 +11,7 @@ namespace ShoppingApp.Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "Admin")]
     public class BasketsController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -22,7 +22,7 @@ namespace ShoppingApp.Presentation.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetBasketItems(GetBasketItemsQueryRequest getBasketItemsQueryRequest)
+        public async Task<IActionResult> GetBasketItems([FromQuery] GetBasketItemsQueryRequest getBasketItemsQueryRequest)
         {
             List<GetBasketItemsQueryResponse> response = await _mediator.Send(getBasketItemsQueryRequest);
 
