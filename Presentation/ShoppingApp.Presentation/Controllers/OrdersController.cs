@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ShoppingApp.Application.Features.Commands.Order.CreateOrder;
 using ShoppingApp.Application.Repositories.Order;
 using ShoppingApp.Domain.Entities;
 
@@ -7,48 +10,24 @@ namespace ShoppingApp.Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Admin")]
     public class OrdersController : ControllerBase
     {
-        private readonly IOrderWriteRepository _orderWriteRepository;
-        private readonly IOrderReadRepository _orderReadRepository;
+        private readonly IMediator _mediator;
 
-        public OrdersController(IOrderWriteRepository orderWriteRepository, IOrderReadRepository orderReadRepository)
+        public OrdersController(IMediator mediator)
         {
-            _orderWriteRepository = orderWriteRepository;
-            _orderReadRepository = orderReadRepository;
+            _mediator = mediator;
         }
 
-        //[HttpPost]
-        //public async Task Add()
-        //{
-        //    var guid = "7aa6e9bc-5209-4b82-83ee-0abd3cd454f5";
+        [HttpPost]
+        public async Task<IActionResult> CreateOrder(CreateOrderCommandRequest createOrderCommandRequest)
+        {
+            CreateOrderCommandResponse createOrderCommandResponse = await _mediator.Send(createOrderCommandRequest);
 
-
-        //    await _orderWriteRepository.AddAsync(new()
-        //    {
-        //        Description = "Bla bla bla",
-        //        Address = "Kars, Merkez",
-        //        CustomerId = Guid.Parse(guid)
-                
-        //    });
-        //    //await _orderWriteRepository.AddAsync(new()
-        //    //{
-        //    //    Description = "Bla bla bla 2",
-        //    //    Address = "Kars"
-        //    //});
-        //    await _orderWriteRepository.SaveAsync();
-
-        //}
-
-
-        //[HttpGet]
-        //public async  Task<IActionResult> Get()
-        //{
-
-        //   var order = _orderReadRepository.GetAll();
-
-        //    return Ok(order);
-
-        //}
+            return Ok(createOrderCommandResponse);
+            
+        }
+        
     }
 }

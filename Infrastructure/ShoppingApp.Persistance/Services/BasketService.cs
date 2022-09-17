@@ -78,7 +78,7 @@ namespace ShoppingApp.Persistence.Services
             Basket? basket = await ContextUser();
             if (basket != null)
             {
-                BasketItem _basketItem = await _basketItemReadRepository.GetSingleAsync(bi => bi.BasketId == basket.Id && bi.ProductId == Guid.Parse(basketItem.ProductId));
+                BasketItem? _basketItem = await _basketItemReadRepository.GetSingleAsync(bi => bi.BasketId == basket.Id && bi.ProductId == Guid.Parse(basketItem.ProductId));
                 if (_basketItem != null)
                     _basketItem.Quantity++;
                 else
@@ -113,6 +113,16 @@ namespace ShoppingApp.Persistence.Services
                 _basketItemWriteRepository.Remove(basketItem);
                 await _basketItemWriteRepository.SaveAsync();
             }
+        }
+
+        public Basket? GetUserActiveBasket
+        {
+            get
+            {
+                Basket? basket = ContextUser().Result;
+                return basket;
+            }
+
         }
 
         public async Task UpdateQuantityAsync(UpdateBasketItemViewModel basketItem)

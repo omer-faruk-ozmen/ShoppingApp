@@ -45,6 +45,7 @@ namespace ShoppingApp.Persistence.Contexts
             await context.Products.AddRangeAsync(products);
 
             await context.SaveChangesAsync();
+            
         }
     }
 }
