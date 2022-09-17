@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Google.Apis.Auth;
+﻿using Google.Apis.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -11,7 +6,6 @@ using ShoppingApp.Application.Abstractions.Services;
 using ShoppingApp.Application.Abstractions.Token;
 using ShoppingApp.Application.DTOs;
 using ShoppingApp.Application.Exceptions;
-using ShoppingApp.Application.Features.Commands.AppUser.LoginUser;
 using ShoppingApp.Domain.Entities.Identity;
 using U = ShoppingApp.Domain.Entities.Identity;
 

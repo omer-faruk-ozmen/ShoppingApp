@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.Extensions.DependencyInjection;
 using ShoppingApp.Application.Abstractions.Storage;
 using ShoppingApp.Application.Abstractions.Token;
 using ShoppingApp.Infrastructure.Enums;
-using ShoppingApp.Infrastructure.Services;
 using ShoppingApp.Infrastructure.Services.Storage;
 using ShoppingApp.Infrastructure.Services.Storage.Azure;
 using ShoppingApp.Infrastructure.Services.Storage.Local;

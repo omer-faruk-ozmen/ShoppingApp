@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using ShoppingApp.Application.Abstractions.Hubs;
 using ShoppingApp.Application.Abstractions.Services;
-using ShoppingApp.Application.DTOs.Orders;
 
 namespace ShoppingApp.Application.Features.Commands.Order.CreateOrder;
 

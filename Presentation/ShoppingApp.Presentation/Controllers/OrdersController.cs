@@ -1,10 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShoppingApp.Application.Features.Commands.Order.CreateOrder;
-using ShoppingApp.Application.Repositories.Order;
-using ShoppingApp.Domain.Entities;
 
 namespace ShoppingApp.Presentation.Controllers
 {

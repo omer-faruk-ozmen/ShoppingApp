@@ -1,5 +1,4 @@
 ﻿using ShoppingApp.Application.Repositories.Basket;
-using ShoppingApp.Application.Repositories.BasketItem;
 using ShoppingApp.Persistence.Contexts;
 
 namespace ShoppingApp.Persistence.Repositories.Basket;

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ShoppingApp.Infrastructure.Operations;
+﻿using ShoppingApp.Infrastructure.Operations;
 
 namespace ShoppingApp.Infrastructure.Services.Storage
 {

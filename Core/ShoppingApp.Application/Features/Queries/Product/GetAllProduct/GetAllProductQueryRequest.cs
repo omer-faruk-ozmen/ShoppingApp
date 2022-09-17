@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MediatR;
-using ShoppingApp.Application.RequestParameters;
+﻿using MediatR;
 
 namespace ShoppingApp.Application.Features.Queries.Product.GetAllProduct
 {

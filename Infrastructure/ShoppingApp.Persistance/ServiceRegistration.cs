@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using ShoppingApp.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using ShoppingApp.Application.Abstractions.Services;
 using ShoppingApp.Application.Abstractions.Services.Authentication;
 using ShoppingApp.Application.Repositories.Basket;

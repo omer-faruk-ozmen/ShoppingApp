@@ -17,7 +17,6 @@ using ShoppingApp.Persistence;
 using ShoppingApp.Presentation.Configurations.ColumnWriters;
 using ShoppingApp.Presentation.Extensions;
 using ShoppingApp.SignalR;
-using ShoppingApp.SignalR.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 

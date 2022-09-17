@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ShoppingApp.Application.DTOs.Orders;
+﻿using ShoppingApp.Application.DTOs.Orders;
 
 namespace ShoppingApp.Application.Abstractions.Services
 {

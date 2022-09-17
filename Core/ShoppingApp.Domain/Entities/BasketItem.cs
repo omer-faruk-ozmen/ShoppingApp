@@ -1,5 +1,4 @@
 ﻿using ShoppingApp.Domain.Entities.Common;
-using ShoppingApp.Domain.Entities.Identity;
 
 namespace ShoppingApp.Domain.Entities;
 

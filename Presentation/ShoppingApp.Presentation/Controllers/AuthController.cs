@@ -1,6 +1,4 @@
-﻿using System.Text;
-using MediatR;
-using Microsoft.AspNetCore.Http;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ShoppingApp.Application.Features.Commands.AppUser.CreateUser;
 using ShoppingApp.Application.Features.Commands.AppUser.GoogleLogin;

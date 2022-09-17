@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ShoppingApp.Application.Repositories.Customer;
 
 namespace ShoppingApp.Presentation.Controllers

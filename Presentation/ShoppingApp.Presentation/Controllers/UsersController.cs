@@ -1,9 +1,4 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using ShoppingApp.Application.Features.Commands.AppUser.CreateUser;
-using ShoppingApp.Application.Features.Commands.AppUser.GoogleLogin;
-using ShoppingApp.Application.Features.Commands.AppUser.LoginUser;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace ShoppingApp.Presentation.Controllers
 {

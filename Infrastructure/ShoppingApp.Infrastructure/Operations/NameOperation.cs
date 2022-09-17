@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ShoppingApp.Infrastructure.Operations
+﻿namespace ShoppingApp.Infrastructure.Operations
 {
     public static class NameOperation
     {

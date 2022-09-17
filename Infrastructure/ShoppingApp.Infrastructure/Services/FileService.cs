@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ShoppingApp.Infrastructure.Operations;
+﻿using ShoppingApp.Infrastructure.Operations;
 
 namespace ShoppingApp.Infrastructure.Services
 {

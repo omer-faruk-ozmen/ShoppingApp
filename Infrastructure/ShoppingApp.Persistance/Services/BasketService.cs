@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ShoppingApp.Application.Abstractions.Services;
@@ -13,7 +8,6 @@ using ShoppingApp.Application.Repositories.Order;
 using ShoppingApp.Application.ViewModels.Baskets;
 using ShoppingApp.Domain.Entities;
 using ShoppingApp.Domain.Entities.Identity;
-using ShoppingApp.Persistence.Repositories.Order;
 
 namespace ShoppingApp.Persistence.Services
 {

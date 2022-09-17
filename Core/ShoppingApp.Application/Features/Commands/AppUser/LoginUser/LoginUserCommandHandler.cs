@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MediatR;
-using Microsoft.AspNetCore.Identity;
+﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using ShoppingApp.Application.Abstractions.Services;
-using ShoppingApp.Application.Abstractions.Token;
-using ShoppingApp.Application.DTOs;
-using ShoppingApp.Application.Exceptions;
 using U = ShoppingApp.Domain.Entities.Identity;
 
 namespace ShoppingApp.Application.Features.Commands.AppUser.LoginUser

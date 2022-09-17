@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ShoppingApp.Domain.Entities.Common;
+﻿using ShoppingApp.Domain.Entities.Common;
 using ShoppingApp.Domain.Entities.File;
 
 namespace ShoppingApp.Domain.Entities;

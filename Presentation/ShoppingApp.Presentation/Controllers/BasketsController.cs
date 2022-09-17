@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShoppingApp.Application.Features.Commands.Basket.AddItemToBasket;
 using ShoppingApp.Application.Features.Commands.Basket.RemoveBasketItem;

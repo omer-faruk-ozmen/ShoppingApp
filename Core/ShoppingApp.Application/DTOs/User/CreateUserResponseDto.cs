@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ShoppingApp.Application.DTOs.User
+﻿namespace ShoppingApp.Application.DTOs.User
 {
     public class CreateUserResponseDto
     {

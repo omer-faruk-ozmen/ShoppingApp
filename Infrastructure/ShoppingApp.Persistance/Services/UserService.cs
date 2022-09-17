@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using ShoppingApp.Application.Abstractions.Services;
 using ShoppingApp.Application.DTOs.User;
 using ShoppingApp.Application.Exceptions;
-using ShoppingApp.Application.Features.Commands.AppUser.CreateUser;
 using ShoppingApp.Domain.Entities.Identity;
 
 namespace ShoppingApp.Persistence.Services
