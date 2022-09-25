@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShoppingApp.Application.Features.Commands.Order.CreateOrder;
+using ShoppingApp.Application.Features.Queries.Order.GetAllOrder;
 
 namespace ShoppingApp.Presentation.Controllers
 {
@@ -25,6 +26,13 @@ namespace ShoppingApp.Presentation.Controllers
             return Ok(createOrderCommandResponse);
             
         }
-        
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllOrders([FromQuery] GetAllOrderQueryRequest getAllOrderQueryRequest)
+        {
+            GetAllOrderQueryResponse response = await _mediator.Send(getAllOrderQueryRequest);
+            return Ok(response);
+        }
+
     }
 }

@@ -107,6 +107,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+if(app.Environment.IsProduction())
+{
+
+}
+
 app.ConfigureExcepitonHandler<Program>(app.Services.GetRequiredService<ILogger<Program>>());
 
 app.UseStaticFiles();
@@ -125,7 +130,7 @@ app.UseAuthorization();
 
 app.Use(async (context, next) =>
 {
-    var username = context.User?.Identity?.IsAuthenticated != null || true ? context.User.Identity.Name : null;
+    var username = context.User?.Identity?.IsAuthenticated != null || true ? context.User?.Identity?.Name : null;
 
     LogContext.PushProperty("Username", username);
 
