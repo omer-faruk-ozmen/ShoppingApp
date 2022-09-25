@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using ShoppingApp.Application.Abstractions.Services;
 using ShoppingApp.Application.DTOs.Orders;
 
-namespace ShoppingApp.Application.Features.Queries.Order.GetAllOrder
+namespace ShoppingApp.Application.Features.Queries.Order.GetAllOrders
 {
     public class GetAllOrderQueryHandler : IRequestHandler<GetAllOrderQueryRequest, GetAllOrderQueryResponse>
     {

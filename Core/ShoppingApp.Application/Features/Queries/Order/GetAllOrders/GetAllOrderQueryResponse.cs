@@ -1,4 +1,4 @@
-﻿namespace ShoppingApp.Application.Features.Queries.Order.GetAllOrder;
+﻿namespace ShoppingApp.Application.Features.Queries.Order.GetAllOrders;
 
 public class GetAllOrderQueryResponse
 {

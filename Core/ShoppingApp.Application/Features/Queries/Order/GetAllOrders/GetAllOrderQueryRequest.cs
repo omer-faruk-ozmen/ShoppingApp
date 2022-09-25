@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace ShoppingApp.Application.Features.Queries.Order.GetAllOrder;
+namespace ShoppingApp.Application.Features.Queries.Order.GetAllOrders;
 
 public class GetAllOrderQueryRequest : IRequest<GetAllOrderQueryResponse>
 {

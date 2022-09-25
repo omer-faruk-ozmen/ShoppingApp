@@ -2,7 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShoppingApp.Application.Features.Commands.Order.CreateOrder;
-using ShoppingApp.Application.Features.Queries.Order.GetAllOrder;
+using ShoppingApp.Application.Features.Queries.Order.GetAllOrders;
+using ShoppingApp.Application.Features.Queries.Order.GetOrderById;
 
 namespace ShoppingApp.Presentation.Controllers
 {
@@ -31,6 +32,13 @@ namespace ShoppingApp.Presentation.Controllers
         public async Task<IActionResult> GetAllOrders([FromQuery] GetAllOrderQueryRequest getAllOrderQueryRequest)
         {
             GetAllOrderQueryResponse response = await _mediator.Send(getAllOrderQueryRequest);
+            return Ok(response);
+        }
+
+        [HttpGet("{Id}")]
+        public async Task<IActionResult> GetOrderById([FromRoute] GetOrderByIdQueryRequest getOrderByIdQueryRequest)
+        {
+            GetOrderByIdQueryResponse response = await _mediator.Send(getOrderByIdQueryRequest);
             return Ok(response);
         }
 
