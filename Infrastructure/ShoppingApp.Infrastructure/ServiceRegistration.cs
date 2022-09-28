@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using ShoppingApp.Application.Abstractions.Services;
 using ShoppingApp.Application.Abstractions.Storage;
 using ShoppingApp.Application.Abstractions.Token;
 using ShoppingApp.Infrastructure.Enums;
+using ShoppingApp.Infrastructure.Services;
 using ShoppingApp.Infrastructure.Services.Storage;
 using ShoppingApp.Infrastructure.Services.Storage.Azure;
 using ShoppingApp.Infrastructure.Services.Storage.Local;
@@ -15,14 +17,15 @@ namespace ShoppingApp.Infrastructure
         {
             serviceCollection.AddScoped<IStorageService, StorageService>();
             serviceCollection.AddScoped<ITokenHandler, TokenHandler>();
+            serviceCollection.AddScoped<IMailService, MailService>();
         }
 
-        public static void AddStorage<T>(this IServiceCollection serviceCollection) where T : Storage,IStorage
+        public static void AddStorage<T>(this IServiceCollection serviceCollection) where T : Storage, IStorage
         {
-            serviceCollection.AddScoped<IStorage,T>();
+            serviceCollection.AddScoped<IStorage, T>();
         }
         //A dirty code has been used at this point. the reason is to create an overloading mechanism for add storage<T>.
-        public static void AddStorage<T>(this IServiceCollection serviceCollection,StorageType storageType) where T : class, IStorage
+        public static void AddStorage<T>(this IServiceCollection serviceCollection, StorageType storageType) where T : class, IStorage
         {
             switch (storageType)
             {
