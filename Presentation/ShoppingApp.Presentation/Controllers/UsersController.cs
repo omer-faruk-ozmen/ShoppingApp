@@ -20,7 +20,7 @@ namespace ShoppingApp.Presentation.Controllers
         [HttpGet]
         public async Task<IActionResult> SendMail()
         {
-            await _mailService.SendMessageAsync("yesilyayla3649@icloud.com", "Onemli Bilgilendirme", "<p><span style=\"color:#e74c3c\"><em><strong>Selam Bebek</strong></em></span></p>\r\n\r\n<p><span style=\"color:#f39c12\"><strong>Ben Kelebek</strong></span></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p><span style=\"color:#8e44ad\">Bu bir OFO uygulama testidir l&uuml;tfen sizi sevmesi dışında dikkate almayınız...</span></p>");
+            await _mailService.SendMessageAsync("ofotest@hotmail.com", "Onemli Bilgilendirme", "<p>Deneme</p>");
             return Ok();
         }
     }
