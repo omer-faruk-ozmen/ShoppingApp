@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Mail;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using ShoppingApp.Application.Abstractions.Services;
 
@@ -19,7 +15,7 @@ namespace ShoppingApp.Infrastructure.Services
             _configuration = configuration;
         }
 
-        public async Task SendMessageAsync(string[] tos, string subject, string body, bool isBodyHtml = true)
+        public async Task SendMailAsync(string[] tos, string subject, string body, bool isBodyHtml = true)
         {
             MailMessage mail = new();
             mail.IsBodyHtml = isBodyHtml;
@@ -27,7 +23,7 @@ namespace ShoppingApp.Infrastructure.Services
                 mail.To.Add(to);
             mail.Subject = subject;
             mail.Body = body;
-            mail.From = new(_configuration["Mail:Username"], "Test Mail", Encoding.UTF8);
+            mail.From = new(_configuration["Mail:Username"], "OmerFarukOzmen.Net", Encoding.UTF8);
 
             SmtpClient smtp = new();
             smtp.Credentials = new NetworkCredential(_configuration["Mail:Username"], _configuration["Mail:Password"]);
@@ -38,9 +34,24 @@ namespace ShoppingApp.Infrastructure.Services
             await smtp.SendMailAsync(mail);
         }
 
-        public async Task SendMessageAsync(string to, string subject, string body, bool isBodyHtml = true)
+        public async Task SendMailAsync(string to, string subject, string body, bool isBodyHtml = true)
         {
-            await SendMessageAsync(new[] { to }, subject, body, isBodyHtml);
+            await SendMailAsync(new[] { to }, subject, body, isBodyHtml);
+        }
+
+        public async Task SendPasswordResetMailAsync(string to,string userId,string resetToken)
+        {
+            StringBuilder mail = new();
+            mail.Append("Hi User,<br>We received a request to reset your Facebook password.<br>To reset the password, go to the link below:<br><strong><a target=\"_blank\" href=\"");
+            mail.Append(_configuration["Urls:AngularClientUrl"]);
+            mail.Append("/update-password/");
+            mail.Append(userId);
+            mail.Append("/");
+            mail.Append(resetToken);
+            mail.Append("\">Click to request a new password</a></strong><br><br><span style=\"font-size:12px;\">Didn't you make such a request?<br>If you haven't requested a new password, let us know.</span><br><br>We wish you healthy days<br><br>www.omerfarukozmen.net | ShoppingApp");
+
+
+            await SendMailAsync(to, "ShoppingApp Account Recovery Support", mail.ToString());
         }
     }
 }

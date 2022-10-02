@@ -1,9 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ShoppingApp.Application.Features.Commands.AppUser.CreateUser;
 using ShoppingApp.Application.Features.Commands.AppUser.GoogleLogin;
 using ShoppingApp.Application.Features.Commands.AppUser.LoginUser;
+using ShoppingApp.Application.Features.Commands.AppUser.PasswordReset;
 using ShoppingApp.Application.Features.Commands.AppUser.RefreshTokenLogin;
+using ShoppingApp.Application.Features.Commands.AppUser.VerifyResetToken;
 
 namespace ShoppingApp.Presentation.Controllers
 {
@@ -26,12 +27,7 @@ namespace ShoppingApp.Presentation.Controllers
             return Ok(response);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateUser(CreateUserCommandRequest createUserCommandRequest)
-        {
-            CreateUserCommandResponse response = await _mediator.Send(createUserCommandRequest);
-            return Ok(response);
-        }
+        
 
         [HttpPost("[action]")]
         public async Task<IActionResult> Login(LoginUserCommandRequest loginUserCommandRequest)
@@ -45,6 +41,20 @@ namespace ShoppingApp.Presentation.Controllers
         {
             GoogleLoginCommandResponse response = await _mediator.Send(googleLoginCommandRequest);
 
+            return Ok(response);
+        }
+
+        [HttpPost("password-reset")]
+        public async Task<IActionResult> PasswordReset([FromBody] PasswordResetCommandRequest request)
+        {
+            PasswordResetCommandResponse response = await _mediator.Send(request);
+            return Ok(response);
+        }
+
+        [HttpPost("verify-reset-token")]
+        public async Task<IActionResult> VerifyResetToken([FromBody] VerifyResetTokenCommandRequest request)
+        {
+            VerifyResetTokenCommandResponse response = await _mediator.Send(request);
             return Ok(response);
         }
     }

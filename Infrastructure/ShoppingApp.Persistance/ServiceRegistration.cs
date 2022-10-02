@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 using ShoppingApp.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using ShoppingApp.Application.Abstractions.Services;
@@ -42,7 +43,7 @@ namespace ShoppingApp.Persistence
                 options.Password.RequireLowercase = false;
                 options.Password.RequireDigit = false;
                 options.User.RequireUniqueEmail = true;
-            }).AddEntityFrameworkStores<ShoppingAppDbContext>();
+            }).AddEntityFrameworkStores<ShoppingAppDbContext>().AddDefaultTokenProviders();
 
             services.AddScoped<ICustomerReadRepository, CustomerReadRepository>();
             services.AddScoped<ICustomerWriteRepository, CustomerWriteRepository>();

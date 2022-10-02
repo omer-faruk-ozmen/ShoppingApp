@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using ShoppingApp.Application.Abstractions.Services;
 using ShoppingApp.Application.DTOs.User;
 using ShoppingApp.Application.Exceptions;
 using ShoppingApp.Domain.Entities.Identity;
+using System.Text;
+using ShoppingApp.Application.Helpers;
 
 namespace ShoppingApp.Persistence.Services
 {
@@ -44,7 +47,7 @@ namespace ShoppingApp.Persistence.Services
             return response;
         }
 
-        public async Task<bool> UpdateRefreshToken(string refreshToken, AppUser? user, DateTime accessTokenDate, int addOnAccessTokenDateTime)
+        public async Task<bool> UpdateRefreshTokenAsync(string refreshToken, AppUser? user, DateTime accessTokenDate, int addOnAccessTokenDateTime)
         {
             if (user != null)
             {
@@ -60,6 +63,21 @@ namespace ShoppingApp.Persistence.Services
 
 
 
+        }
+
+        public async Task UpdatePasswordAsync(string userId, string resetToken, string newPassword)
+        {
+            AppUser user = await _userManager.FindByIdAsync(userId);
+            if (user != null)
+            {
+                resetToken = resetToken.UrlDecode();
+                IdentityResult result = await _userManager.ResetPasswordAsync(user, resetToken, newPassword);
+
+                if (result.Succeeded)
+                    await _userManager.UpdateSecurityStampAsync(user);
+                else
+                    throw new PasswordChangeFailedException();
+            }
         }
     }
 }
