@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ShoppingApp.Application.Features.Commands.Order.CompleteOrder;
 using ShoppingApp.Application.Features.Commands.Order.CreateOrder;
 using ShoppingApp.Application.Features.Queries.Order.GetAllOrders;
 using ShoppingApp.Application.Features.Queries.Order.GetOrderById;
@@ -25,7 +26,7 @@ namespace ShoppingApp.Presentation.Controllers
             CreateOrderCommandResponse createOrderCommandResponse = await _mediator.Send(createOrderCommandRequest);
 
             return Ok(createOrderCommandResponse);
-            
+
         }
 
         [HttpGet]
@@ -39,6 +40,13 @@ namespace ShoppingApp.Presentation.Controllers
         public async Task<IActionResult> GetOrderById([FromRoute] GetOrderByIdQueryRequest getOrderByIdQueryRequest)
         {
             GetOrderByIdQueryResponse response = await _mediator.Send(getOrderByIdQueryRequest);
+            return Ok(response);
+        }
+
+        [HttpGet("complete-order/{Id}")]
+        public async Task<IActionResult> CompleteOrder([FromRoute] CompleteOrderCommandRequest completeOrderCommandRequest)
+        {
+            CompleteOrderCommandResponse response = await _mediator.Send(completeOrderCommandRequest);
             return Ok(response);
         }
 

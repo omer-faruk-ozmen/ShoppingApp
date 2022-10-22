@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ShoppingApp.Persistence.Contexts;
@@ -11,9 +12,10 @@ using ShoppingApp.Persistence.Contexts;
 namespace ShoppingApp.Persistence.Migrations
 {
     [DbContext(typeof(ShoppingAppDbContext))]
-    partial class ShoppingAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221022102504_mig_11")]
+    partial class mig_11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

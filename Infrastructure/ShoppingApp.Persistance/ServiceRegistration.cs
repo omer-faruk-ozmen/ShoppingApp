@@ -6,6 +6,7 @@ using ShoppingApp.Application.Abstractions.Services;
 using ShoppingApp.Application.Abstractions.Services.Authentication;
 using ShoppingApp.Application.Repositories.Basket;
 using ShoppingApp.Application.Repositories.BasketItem;
+using ShoppingApp.Application.Repositories.CompletedOrder;
 using ShoppingApp.Application.Repositories.Customer;
 using ShoppingApp.Application.Repositories.File;
 using ShoppingApp.Application.Repositories.File.ProductImageFile;
@@ -15,6 +16,7 @@ using ShoppingApp.Application.Repositories.Product;
 using ShoppingApp.Domain.Entities.Identity;
 using ShoppingApp.Persistence.Repositories.Basket;
 using ShoppingApp.Persistence.Repositories.BasketItem;
+using ShoppingApp.Persistence.Repositories.CompletedOrder;
 using ShoppingApp.Persistence.Repositories.Customer;
 using ShoppingApp.Persistence.Repositories.File;
 using ShoppingApp.Persistence.Repositories.File.InvoiceFile;
@@ -69,6 +71,8 @@ namespace ShoppingApp.Persistence
             services.AddScoped<IBasketItemReadRepository, BasketItemReadRepository>();
             services.AddScoped<IBasketItemWriteRepository, BasketItemWriteRepository>();
 
+            services.AddScoped<ICompletedOrderReadRepository, CompletedOrderReadRepository>();
+            services.AddScoped<ICompletedOrderWriteRepository, CompletedOrderWriteRepository>();
 
 
             services.AddScoped<IBasketService, BasketService>();

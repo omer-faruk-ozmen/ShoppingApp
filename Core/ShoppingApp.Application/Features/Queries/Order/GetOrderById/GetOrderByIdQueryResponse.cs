@@ -9,4 +9,5 @@ public class GetOrderByIdQueryResponse
     public object BasketItems { get; set; }
     public DateTime CreatedDate { get; set; }
     public DateTime UpdatedDate { get; set; }
+    public bool Completed { get; set; }
 }
