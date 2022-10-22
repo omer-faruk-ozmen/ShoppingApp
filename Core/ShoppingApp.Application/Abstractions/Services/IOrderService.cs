@@ -8,6 +8,6 @@ namespace ShoppingApp.Application.Abstractions.Services
         Task CreateOrderAsync(CreateOrderDto createOrderDto);
         Task<ListOrder> GetAllOrdersAsync(int page, int size);
         Task<SingleOrder> GetOrderByIdAsync(string id);
-        Task CompleteOrderAsync(string id);
+        Task<(bool,CompletedOrderDto)> CompleteOrderAsync(string id);
     }
 }

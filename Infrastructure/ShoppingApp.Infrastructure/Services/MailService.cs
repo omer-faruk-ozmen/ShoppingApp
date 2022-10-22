@@ -3,6 +3,7 @@ using System.Net.Mail;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using ShoppingApp.Application.Abstractions.Services;
+using ShoppingApp.Domain.Entities.Identity;
 
 namespace ShoppingApp.Infrastructure.Services
 {
@@ -39,7 +40,7 @@ namespace ShoppingApp.Infrastructure.Services
             await SendMailAsync(new[] { to }, subject, body, isBodyHtml);
         }
 
-        public async Task SendPasswordResetMailAsync(string to,string userId,string resetToken)
+        public async Task SendPasswordResetMailAsync(string to, string userId, string resetToken)
         {
             StringBuilder mail = new();
             mail.Append("Hi User,<br>We received a request to reset your Facebook password.<br>To reset the password, go to the link below:<br><strong><a target=\"_blank\" href=\"");
@@ -52,6 +53,16 @@ namespace ShoppingApp.Infrastructure.Services
 
 
             await SendMailAsync(to, "ShoppingApp Account Recovery Support", mail.ToString());
+        }
+
+        public async Task SendCompletedOrderMailAsync( AppUser user, string orderCode, DateTime orderDate)
+        {
+            StringBuilder mail = new();
+            mail.Append($"Hi {user.FirstName},<br>your order number {orderCode} has been confirmed.<br>It will be delivered to you as soon as possible. Thank you for choosing us<br>");
+            mail.Append("<br><br>www.omerfarukozmen.net | ShoppingApp");
+
+
+            await SendMailAsync(user.Email, $"Your order number {orderCode} has been confirmed.", mail.ToString());
         }
     }
 }
