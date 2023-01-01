@@ -29,7 +29,7 @@ namespace ShoppingApp.Infrastructure.Services.Token
             SigningCredentials signingCredentials = new(securityKey, SecurityAlgorithms.HmacSha256);
 
             //Token settings
-            token.Expiration = DateTime.UtcNow.AddMinutes(minute);
+            token.Expiration = DateTime.UtcNow.AddHours(minute);
 
             JwtSecurityToken securityToken = new(
                 audience: _configuration["JWT:ValidAudience"],
