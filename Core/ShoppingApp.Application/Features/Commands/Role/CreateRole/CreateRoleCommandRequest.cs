@@ -1,9 +1,8 @@
 ﻿using MediatR;
 
-namespace ShoppingApp.Application.Features.Commands.Role.CreateRole
+namespace ShoppingApp.Application.Features.Commands.Role.CreateRole;
+
+public class CreateRoleCommandRequest : IRequest<CreateRoleCommandResponse>
 {
-    public class CreateRoleCommandRequest : IRequest<CreateRoleCommandResponse>
-    {
-        public string Name { get; set; }
-    }
+    public string Name { get; set; }
 }

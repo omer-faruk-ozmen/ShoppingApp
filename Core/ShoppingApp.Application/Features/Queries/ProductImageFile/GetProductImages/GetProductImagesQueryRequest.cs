@@ -1,9 +1,8 @@
 ﻿using MediatR;
 
-namespace ShoppingApp.Application.Features.Queries.ProductImageFile.GetProductImages
+namespace ShoppingApp.Application.Features.Queries.ProductImageFile.GetProductImages;
+
+public class GetProductImagesQueryRequest:IRequest<List<GetProductImagesQueryResponse>>
 {
-    public class GetProductImagesQueryRequest:IRequest<List<GetProductImagesQueryResponse>>
-    {
-        public string? Id { get; set; }
-    }
+    public string? Id { get; set; }
 }

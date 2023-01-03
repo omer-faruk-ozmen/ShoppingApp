@@ -1,27 +1,26 @@
 ﻿using MediatR;
 using ShoppingApp.Application.Abstractions.Services;
 
-namespace ShoppingApp.Application.Features.Commands.AppUser.GoogleLogin
+namespace ShoppingApp.Application.Features.Commands.AppUser.GoogleLogin;
+
+public class GoogleLoginCommandHandler : IRequestHandler<GoogleLoginCommandRequest, GoogleLoginCommandResponse>
 {
-    public class GoogleLoginCommandHandler : IRequestHandler<GoogleLoginCommandRequest, GoogleLoginCommandResponse>
+    private readonly IAuthService _authService;
+
+    public GoogleLoginCommandHandler(IAuthService authService)
     {
-        private readonly IAuthService _authService;
+        _authService = authService;
+    }
 
-        public GoogleLoginCommandHandler(IAuthService authService)
+    public async Task<GoogleLoginCommandResponse> Handle(GoogleLoginCommandRequest request, CancellationToken cancellationToken)
+    {
+
+
+        var token = await _authService.GoogleLoginAsync(request.IdToken!, request.Provider!, 10);
+
+        return new()
         {
-            _authService = authService;
-        }
-
-        public async Task<GoogleLoginCommandResponse> Handle(GoogleLoginCommandRequest request, CancellationToken cancellationToken)
-        {
-
-
-            var token = await _authService.GoogleLoginAsync(request.IdToken!, request.Provider!, 10);
-
-            return new()
-            {
-                Token = token
-            };
-        }
+            Token = token
+        };
     }
 }

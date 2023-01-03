@@ -1,10 +1,9 @@
 ﻿using ShoppingApp.Application.Abstractions.Services.Authentication;
 
-namespace ShoppingApp.Application.Abstractions.Services
+namespace ShoppingApp.Application.Abstractions.Services;
+
+public interface IAuthService : IExternalAuthentication, IInternalAuthentication
 {
-    public interface IAuthService : IExternalAuthentication, IInternalAuthentication
-    {
-        Task PasswordResetAsync(string userEmail);
-        Task<bool> VerifyResetTokenAsync(string userId, string resetToken);
-    }
+    Task PasswordResetAsync(string userEmail);
+    Task<bool> VerifyResetTokenAsync(string userId, string resetToken);
 }

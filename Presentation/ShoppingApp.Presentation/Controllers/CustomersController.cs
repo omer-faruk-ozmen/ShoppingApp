@@ -1,30 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShoppingApp.Application.Repositories.Customer;
 
-namespace ShoppingApp.Presentation.Controllers
+namespace ShoppingApp.Presentation.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class CustomersController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CustomersController : ControllerBase
+    private readonly ICustomerWriteRepository _customerWriteRepository;
+
+
+    public CustomersController(ICustomerWriteRepository customerWriteRepository)
     {
-        private readonly ICustomerWriteRepository _customerWriteRepository;
+        _customerWriteRepository = customerWriteRepository;
+    }
 
-
-        public CustomersController(ICustomerWriteRepository customerWriteRepository)
+    [HttpPost]
+    public async Task Add()
+    {
+        await _customerWriteRepository.AddAsync(new()
         {
-            _customerWriteRepository = customerWriteRepository;
-        }
+            Name = "Omer Faruk",
 
-        [HttpPost]
-        public async Task Add()
-        {
-            await _customerWriteRepository.AddAsync(new()
-            {
-                Name = "Omer Faruk",
+        });
+        await _customerWriteRepository.SaveAsync();
 
-            });
-            await _customerWriteRepository.SaveAsync();
-
-        }
     }
 }

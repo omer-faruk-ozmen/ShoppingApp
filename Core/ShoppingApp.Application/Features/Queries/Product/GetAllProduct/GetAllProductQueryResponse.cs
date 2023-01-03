@@ -1,8 +1,7 @@
-﻿namespace ShoppingApp.Application.Features.Queries.Product.GetAllProduct
+﻿namespace ShoppingApp.Application.Features.Queries.Product.GetAllProduct;
+
+public class GetAllProductQueryResponse
 {
-    public class GetAllProductQueryResponse
-    {
-        public int TotalProductCount { get; set; }
-        public object? Products { get; set; }
-    }
+    public int TotalProductCount { get; set; }
+    public object? Products { get; set; }
 }

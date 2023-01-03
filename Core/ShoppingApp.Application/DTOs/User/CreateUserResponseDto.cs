@@ -1,8 +1,7 @@
-﻿namespace ShoppingApp.Application.DTOs.User
+﻿namespace ShoppingApp.Application.DTOs.User;
+
+public class CreateUserResponseDto
 {
-    public class CreateUserResponseDto
-    {
-        public bool Succeeded { get; set; }
-        public string? Message { get; set; }
-    }
+    public bool Succeeded { get; set; }
+    public string? Message { get; set; }
 }

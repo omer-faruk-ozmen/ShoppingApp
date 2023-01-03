@@ -1,8 +1,6 @@
 ﻿using MediatR;
 using ShoppingApp.Application.Abstractions.Services;
 using ShoppingApp.Application.DTOs.Orders;
-using ShoppingApp.Application.Repositories.CompletedOrder;
-using ShoppingApp.Application.Repositories.Order;
 
 namespace ShoppingApp.Application.Features.Commands.Order.CompleteOrder;
 

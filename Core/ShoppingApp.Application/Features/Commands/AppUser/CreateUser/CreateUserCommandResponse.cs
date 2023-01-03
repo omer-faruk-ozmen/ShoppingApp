@@ -1,8 +1,7 @@
-﻿namespace ShoppingApp.Application.Features.Commands.AppUser.CreateUser
+﻿namespace ShoppingApp.Application.Features.Commands.AppUser.CreateUser;
+
+public class CreateUserCommandResponse
 {
-    public class CreateUserCommandResponse
-    {
-        public bool Succeeded { get; set; }
-        public string? Message { get; set; }
-    }
+    public bool Succeeded { get; set; }
+    public string? Message { get; set; }
 }

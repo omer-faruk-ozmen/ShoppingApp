@@ -5,64 +5,63 @@ using Microsoft.Extensions.Configuration;
 using ShoppingApp.Application.Abstractions.Services;
 using ShoppingApp.Domain.Entities.Identity;
 
-namespace ShoppingApp.Infrastructure.Services
+namespace ShoppingApp.Infrastructure.Services;
+
+public class MailService : IMailService
 {
-    public class MailService : IMailService
+    private readonly IConfiguration _configuration;
+
+    public MailService(IConfiguration configuration)
     {
-        private readonly IConfiguration _configuration;
+        _configuration = configuration;
+    }
 
-        public MailService(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
+    public async Task SendMailAsync(string[] tos, string subject, string body, bool isBodyHtml = true)
+    {
+        MailMessage mail = new();
+        mail.IsBodyHtml = isBodyHtml;
+        foreach (var to in tos)
+            mail.To.Add(to);
+        mail.Subject = subject;
+        mail.Body = body;
+        mail.From = new(_configuration["Mail:Username"], "OmerFarukOzmen.Net", Encoding.UTF8);
 
-        public async Task SendMailAsync(string[] tos, string subject, string body, bool isBodyHtml = true)
-        {
-            MailMessage mail = new();
-            mail.IsBodyHtml = isBodyHtml;
-            foreach (var to in tos)
-                mail.To.Add(to);
-            mail.Subject = subject;
-            mail.Body = body;
-            mail.From = new(_configuration["Mail:Username"], "OmerFarukOzmen.Net", Encoding.UTF8);
+        SmtpClient smtp = new();
+        smtp.Credentials = new NetworkCredential(_configuration["Mail:Username"], _configuration["Mail:Password"]);
 
-            SmtpClient smtp = new();
-            smtp.Credentials = new NetworkCredential(_configuration["Mail:Username"], _configuration["Mail:Password"]);
+        smtp.Port = Convert.ToInt32(_configuration["Mail:Port"]);
+        smtp.EnableSsl = true;
+        smtp.Host = _configuration["Mail:Host"];
+        await smtp.SendMailAsync(mail);
+    }
 
-            smtp.Port = Convert.ToInt32(_configuration["Mail:Port"]);
-            smtp.EnableSsl = true;
-            smtp.Host = _configuration["Mail:Host"];
-            await smtp.SendMailAsync(mail);
-        }
+    public async Task SendMailAsync(string to, string subject, string body, bool isBodyHtml = true)
+    {
+        await SendMailAsync(new[] { to }, subject, body, isBodyHtml);
+    }
 
-        public async Task SendMailAsync(string to, string subject, string body, bool isBodyHtml = true)
-        {
-            await SendMailAsync(new[] { to }, subject, body, isBodyHtml);
-        }
-
-        public async Task SendPasswordResetMailAsync(string to, string userId, string resetToken)
-        {
-            StringBuilder mail = new();
-            mail.Append("Hi User,<br>We received a request to reset your Facebook password.<br>To reset the password, go to the link below:<br><strong><a target=\"_blank\" href=\"");
-            mail.Append(_configuration["Urls:AngularClientUrl"]);
-            mail.Append("/update-password/");
-            mail.Append(userId);
-            mail.Append("/");
-            mail.Append(resetToken);
-            mail.Append("\">Click to request a new password</a></strong><br><br><span style=\"font-size:12px;\">Didn't you make such a request?<br>If you haven't requested a new password, let us know.</span><br><br>We wish you healthy days<br><br>www.omerfarukozmen.net | ShoppingApp");
+    public async Task SendPasswordResetMailAsync(string to, string userId, string resetToken)
+    {
+        StringBuilder mail = new();
+        mail.Append("Hi User,<br>We received a request to reset your Facebook password.<br>To reset the password, go to the link below:<br><strong><a target=\"_blank\" href=\"");
+        mail.Append(_configuration["Urls:AngularClientUrl"]);
+        mail.Append("/update-password/");
+        mail.Append(userId);
+        mail.Append("/");
+        mail.Append(resetToken);
+        mail.Append("\">Click to request a new password</a></strong><br><br><span style=\"font-size:12px;\">Didn't you make such a request?<br>If you haven't requested a new password, let us know.</span><br><br>We wish you healthy days<br><br>www.omerfarukozmen.net | ShoppingApp");
 
 
-            await SendMailAsync(to, "ShoppingApp Account Recovery Support", mail.ToString());
-        }
+        await SendMailAsync(to, "ShoppingApp Account Recovery Support", mail.ToString());
+    }
 
-        public async Task SendCompletedOrderMailAsync( AppUser user, string orderCode, DateTime orderDate)
-        {
-            StringBuilder mail = new();
-            mail.Append($"Hi {user.FirstName},<br>your order number {orderCode} has been confirmed.<br>It will be delivered to you as soon as possible. Thank you for choosing us<br>");
-            mail.Append("<br><br>www.omerfarukozmen.net | ShoppingApp");
+    public async Task SendCompletedOrderMailAsync( AppUser user, string orderCode, DateTime orderDate)
+    {
+        StringBuilder mail = new();
+        mail.Append($"Hi {user.FirstName},<br>your order number {orderCode} has been confirmed.<br>It will be delivered to you as soon as possible. Thank you for choosing us<br>");
+        mail.Append("<br><br>www.omerfarukozmen.net | ShoppingApp");
 
 
-            await SendMailAsync(user.Email, $"Your order number {orderCode} has been confirmed.", mail.ToString());
-        }
+        await SendMailAsync(user.Email, $"Your order number {orderCode} has been confirmed.", mail.ToString());
     }
 }

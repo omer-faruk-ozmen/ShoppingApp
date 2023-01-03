@@ -1,7 +1,6 @@
-﻿namespace ShoppingApp.Application.Features.Commands.Role.DeleteRole
+﻿namespace ShoppingApp.Application.Features.Commands.Role.DeleteRole;
+
+public class DeleteRoleCommandResponse
 {
-    public class DeleteRoleCommandResponse
-    {
-        public bool Succeded { get; set; }
-    }
+    public bool Succeded { get; set; }
 }

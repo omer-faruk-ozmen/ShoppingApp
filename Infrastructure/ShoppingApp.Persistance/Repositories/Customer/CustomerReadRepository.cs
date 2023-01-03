@@ -1,12 +1,11 @@
 ﻿using ShoppingApp.Application.Repositories.Customer;
 using ShoppingApp.Persistence.Contexts;
 
-namespace ShoppingApp.Persistence.Repositories.Customer
+namespace ShoppingApp.Persistence.Repositories.Customer;
+
+public class CustomerReadRepository : ReadRepository<Domain.Entities.Customer>, ICustomerReadRepository
 {
-    public class CustomerReadRepository : ReadRepository<Domain.Entities.Customer>, ICustomerReadRepository
+    public CustomerReadRepository(ShoppingAppDbContext context) : base(context)
     {
-        public CustomerReadRepository(ShoppingAppDbContext context) : base(context)
-        {
-        }
     }
 }

@@ -1,9 +1,8 @@
 ﻿using MediatR;
 
-namespace ShoppingApp.Application.Features.Queries.Product.GetByIdProduct
+namespace ShoppingApp.Application.Features.Queries.Product.GetByIdProduct;
+
+public class GetByIdProductQueryRequest : IRequest<GetByIdProductQueryResponse>
 {
-    public class GetByIdProductQueryRequest : IRequest<GetByIdProductQueryResponse>
-    {
-        public string? Id { get; set; }
-    }
+    public string? Id { get; set; }
 }

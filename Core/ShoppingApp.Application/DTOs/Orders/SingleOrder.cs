@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Permissions;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace ShoppingApp.Application.DTOs.Orders;
 
-namespace ShoppingApp.Application.DTOs.Orders
+public class SingleOrder
 {
-    public class SingleOrder
-    {
-        public string Id { get; set; }
-        public string OrderCode { get; set; }
-        public string? Address { get; set; }
-        public string? Description { get; set; }
-        public object BasketItems { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime UpdatedDate { get; set; }
-        public bool Completed { get; set; }
-    }
+    public string Id { get; set; }
+    public string OrderCode { get; set; }
+    public string? Address { get; set; }
+    public string? Description { get; set; }
+    public object BasketItems { get; set; }
+    public DateTime CreatedDate { get; set; }
+    public DateTime UpdatedDate { get; set; }
+    public bool Completed { get; set; }
 }

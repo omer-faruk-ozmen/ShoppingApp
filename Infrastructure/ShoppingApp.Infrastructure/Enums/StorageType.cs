@@ -1,9 +1,8 @@
-﻿namespace ShoppingApp.Infrastructure.Enums
+﻿namespace ShoppingApp.Infrastructure.Enums;
+
+public enum StorageType
 {
-    public enum StorageType
-    {
-        Local,
-        Azure,
-        AWS
-    }
+    Local,
+    Azure,
+    AWS
 }

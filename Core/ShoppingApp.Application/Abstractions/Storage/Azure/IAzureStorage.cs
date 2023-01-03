@@ -1,6 +1,5 @@
-﻿namespace ShoppingApp.Application.Abstractions.Storage.Azure
+﻿namespace ShoppingApp.Application.Abstractions.Storage.Azure;
+
+public interface IAzureStorage : IStorage
 {
-    public interface IAzureStorage : IStorage
-    {
-    }
 }

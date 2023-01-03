@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace ShoppingApp.Application.Enums;
 
-namespace ShoppingApp.Application.Enums
+public enum ActionType
 {
-    public enum ActionType
-    {
-        Reading,
-        Writing,
-        Updating,
-        Deleting
-    }
+    Reading,
+    Writing,
+    Updating,
+    Deleting
 }

@@ -1,6 +1,5 @@
-﻿namespace ShoppingApp.Application.Features.Commands.Product.RemoveProduct
+﻿namespace ShoppingApp.Application.Features.Commands.Product.RemoveProduct;
+
+public class RemoveProductCommandResponse
 {
-    public class RemoveProductCommandResponse
-    {
-    }
 }

@@ -2,36 +2,35 @@
 using ShoppingApp.Application.Repositories.Product;
 using P = ShoppingApp.Domain.Entities;
 
-namespace ShoppingApp.Application.Features.Queries.Product.GetByIdProduct
+namespace ShoppingApp.Application.Features.Queries.Product.GetByIdProduct;
+
+public class GetByIdProductQueryHandler : IRequestHandler<GetByIdProductQueryRequest, GetByIdProductQueryResponse>
 {
-    public class GetByIdProductQueryHandler : IRequestHandler<GetByIdProductQueryRequest, GetByIdProductQueryResponse>
+    private readonly IProductReadRepository _productReadRepository;
+
+    public GetByIdProductQueryHandler(IProductReadRepository productReadRepository)
     {
-        private readonly IProductReadRepository _productReadRepository;
+        _productReadRepository = productReadRepository;
+    }
 
-        public GetByIdProductQueryHandler(IProductReadRepository productReadRepository)
+    public async Task<GetByIdProductQueryResponse> Handle(GetByIdProductQueryRequest request, CancellationToken cancellationToken)
+    {
+
+
+        P.Product? product = await _productReadRepository.GetByIdAsync(request.Id!, false);
+
+        if (product != null)
         {
-            _productReadRepository = productReadRepository;
-        }
-
-        public async Task<GetByIdProductQueryResponse> Handle(GetByIdProductQueryRequest request, CancellationToken cancellationToken)
-        {
-
-
-            P.Product? product = await _productReadRepository.GetByIdAsync(request.Id!, false);
-
-            if (product != null)
+            return new()
             {
-                return new()
-                {
-                    Name = product.Name!,
-                    Price = product.Price,
-                    Stock = product.Stock,
-                };
-            }
-
-            throw new Exception("Products are faulty ");
-
-
+                Name = product.Name!,
+                Price = product.Price,
+                Stock = product.Stock,
+            };
         }
+
+        throw new Exception("Products are faulty ");
+
+
     }
 }

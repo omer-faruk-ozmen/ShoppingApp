@@ -1,6 +1,5 @@
-﻿namespace ShoppingApp.Application.Repositories.Customer
+﻿namespace ShoppingApp.Application.Repositories.Customer;
+
+public interface ICustomerReadRepository : IReadRepository<Domain.Entities.Customer>
 {
-    public interface ICustomerReadRepository : IReadRepository<Domain.Entities.Customer>
-    {
-    }
 }

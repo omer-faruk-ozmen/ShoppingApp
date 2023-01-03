@@ -1,6 +1,4 @@
-﻿using ShoppingApp.Application.Enums;
-
-namespace ShoppingApp.Application.DTOs.Configurations;
+﻿namespace ShoppingApp.Application.DTOs.Configurations;
 
 public class Action
 {

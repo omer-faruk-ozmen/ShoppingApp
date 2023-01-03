@@ -1,26 +1,25 @@
 ﻿using MediatR;
 using ShoppingApp.Application.Abstractions.Services;
 
-namespace ShoppingApp.Application.Features.Commands.Basket.AddItemToBasket
+namespace ShoppingApp.Application.Features.Commands.Basket.AddItemToBasket;
+
+public class AddItemToBasketCommandHandler : IRequestHandler<AddItemToBasketCommandRequest, AddItemToBasketCommandResponse>
 {
-    public class AddItemToBasketCommandHandler : IRequestHandler<AddItemToBasketCommandRequest, AddItemToBasketCommandResponse>
+    private readonly IBasketService _basketService;
+
+    public AddItemToBasketCommandHandler(IBasketService basketService)
     {
-        private readonly IBasketService _basketService;
+        _basketService = basketService;
+    }
 
-        public AddItemToBasketCommandHandler(IBasketService basketService)
+    public async Task<AddItemToBasketCommandResponse> Handle(AddItemToBasketCommandRequest request, CancellationToken cancellationToken)
+    {
+        await _basketService.AddItemToBasketAsync(new()
         {
-            _basketService = basketService;
-        }
+            ProductId = request.ProductId,
+            Quantity = request.Quantity
+        });
 
-        public async Task<AddItemToBasketCommandResponse> Handle(AddItemToBasketCommandRequest request, CancellationToken cancellationToken)
-        {
-            await _basketService.AddItemToBasketAsync(new()
-            {
-                ProductId = request.ProductId,
-                Quantity = request.Quantity
-            });
-
-            return new();
-        }
+        return new();
     }
 }

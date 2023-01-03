@@ -2,15 +2,14 @@
 using Microsoft.EntityFrameworkCore.Design;
 using ShoppingApp.Persistence.Contexts;
 
-namespace ShoppingApp.Persistence
+namespace ShoppingApp.Persistence;
+
+public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<ShoppingAppDbContext>
 {
-    public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<ShoppingAppDbContext>
+    public ShoppingAppDbContext CreateDbContext(string[] args)
     {
-        public ShoppingAppDbContext CreateDbContext(string[] args)
-        {
-            DbContextOptionsBuilder<ShoppingAppDbContext> dbConeContextOptionsBuilder = new();
-            dbConeContextOptionsBuilder.UseNpgsql(Configuration.ConnectionString);
-            return new(dbConeContextOptionsBuilder.Options);
-        }
+        DbContextOptionsBuilder<ShoppingAppDbContext> dbConeContextOptionsBuilder = new();
+        dbConeContextOptionsBuilder.UseNpgsql(Configuration.ConnectionString);
+        return new(dbConeContextOptionsBuilder.Options);
     }
 }

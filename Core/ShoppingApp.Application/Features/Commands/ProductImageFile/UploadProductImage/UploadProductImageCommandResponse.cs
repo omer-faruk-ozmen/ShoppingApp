@@ -1,6 +1,5 @@
-﻿namespace ShoppingApp.Application.Features.Commands.ProductImageFile.UploadProductImage
+﻿namespace ShoppingApp.Application.Features.Commands.ProductImageFile.UploadProductImage;
+
+public class UploadProductImageCommandResponse
 {
-    public class UploadProductImageCommandResponse
-    {
-    }
 }

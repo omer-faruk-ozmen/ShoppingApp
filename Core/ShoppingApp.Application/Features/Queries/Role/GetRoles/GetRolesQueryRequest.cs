@@ -1,10 +1,9 @@
 ﻿using MediatR;
 
-namespace ShoppingApp.Application.Features.Queries.Role.GetRoles
+namespace ShoppingApp.Application.Features.Queries.Role.GetRoles;
+
+public class GetRolesQueryRequest : IRequest<GetRolesQueryResponse>
 {
-    public class GetRolesQueryRequest : IRequest<GetRolesQueryResponse>
-    {
-        public int Page { get; set; } = 0;
-        public int Size { get; set; } = 5;
-    }
+    public int Page { get; set; } = 0;
+    public int Size { get; set; } = 5;
 }

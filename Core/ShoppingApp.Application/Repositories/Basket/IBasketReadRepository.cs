@@ -1,6 +1,5 @@
-﻿namespace ShoppingApp.Application.Repositories.Basket
+﻿namespace ShoppingApp.Application.Repositories.Basket;
+
+public interface IBasketReadRepository : IReadRepository<Domain.Entities.Basket>
 {
-    public interface IBasketReadRepository : IReadRepository<Domain.Entities.Basket>
-    {
-    }
 }

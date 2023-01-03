@@ -2,15 +2,14 @@
 using ShoppingApp.Application.Abstractions.Hubs;
 using ShoppingApp.SignalR.HubServices;
 
-namespace ShoppingApp.SignalR
+namespace ShoppingApp.SignalR;
+
+public static class ServiceRegistration
 {
-    public static class ServiceRegistration
+    public static void AddSignalRServices(this IServiceCollection collection)
     {
-        public static void AddSignalRServices(this IServiceCollection collection)
-        {
-            collection.AddTransient<IProductHubService, ProductHubService>();
-            collection.AddTransient<IOrderHubService, OrderHubService>();
-            collection.AddSignalR();
-        }
+        collection.AddTransient<IProductHubService, ProductHubService>();
+        collection.AddTransient<IOrderHubService, OrderHubService>();
+        collection.AddSignalR();
     }
 }

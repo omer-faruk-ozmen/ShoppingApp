@@ -1,8 +1,7 @@
-﻿namespace ShoppingApp.Application.Features.Queries.Role.GetRoles
+﻿namespace ShoppingApp.Application.Features.Queries.Role.GetRoles;
+
+public class GetRolesQueryResponse
 {
-    public class GetRolesQueryResponse
-    {
-        public object Datas { get; set; }
-        public int TotalRoleCount { get; set; }
-    }
+    public object Datas { get; set; }
+    public int TotalRoleCount { get; set; }
 }

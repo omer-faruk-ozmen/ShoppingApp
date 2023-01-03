@@ -1,6 +1,5 @@
-﻿namespace ShoppingApp.Application.Features.Commands.Product.CreateProduct
+﻿namespace ShoppingApp.Application.Features.Commands.Product.CreateProduct;
+
+public class CreateProductCommandResponse
 {
-    public class CreateProductCommandResponse
-    {
-    }
 }

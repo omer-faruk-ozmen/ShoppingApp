@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 
-namespace ShoppingApp.SignalR.Hubs
+namespace ShoppingApp.SignalR.Hubs;
+
+public class ProductHub : Hub
 {
-    public class ProductHub : Hub
-    {
-    }
 }

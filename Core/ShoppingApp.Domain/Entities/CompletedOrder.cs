@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ShoppingApp.Domain.Entities.Common;
+﻿using ShoppingApp.Domain.Entities.Common;
 
-namespace ShoppingApp.Domain.Entities
+namespace ShoppingApp.Domain.Entities;
+
+public class CompletedOrder : BaseEntity
 {
-    public class CompletedOrder : BaseEntity
-    {
-        public Guid OrderId { get; set; }
-        public Order Order { get; set; }
-    }
+    public Guid OrderId { get; set; }
+    public Order Order { get; set; }
 }

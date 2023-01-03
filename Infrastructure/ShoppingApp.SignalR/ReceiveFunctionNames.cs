@@ -1,8 +1,7 @@
-﻿namespace ShoppingApp.SignalR
+﻿namespace ShoppingApp.SignalR;
+
+public static class ReceiveFunctionNames
 {
-    public static class ReceiveFunctionNames
-    {
-        public const string ProductAddedMessage = "receiveProductAddedMessage";
-        public const string OrderAddedMessage = "receiveOrderAddedMessage";
-    }
+    public const string ProductAddedMessage = "receiveProductAddedMessage";
+    public const string OrderAddedMessage = "receiveOrderAddedMessage";
 }

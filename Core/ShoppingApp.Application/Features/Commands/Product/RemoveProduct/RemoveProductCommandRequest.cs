@@ -1,9 +1,8 @@
 ﻿using MediatR;
 
-namespace ShoppingApp.Application.Features.Commands.Product.RemoveProduct
+namespace ShoppingApp.Application.Features.Commands.Product.RemoveProduct;
+
+public class RemoveProductCommandRequest:IRequest<RemoveProductCommandResponse>
 {
-    public class RemoveProductCommandRequest:IRequest<RemoveProductCommandResponse>
-    {
-        public string? Id { get; set; }
-    }
+    public string? Id { get; set; }
 }

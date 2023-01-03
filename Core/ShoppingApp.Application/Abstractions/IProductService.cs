@@ -1,9 +1,8 @@
 ﻿using ShoppingApp.Domain.Entities;
 
-namespace ShoppingApp.Application.Abstractions
+namespace ShoppingApp.Application.Abstractions;
+
+public interface IProductService
 {
-    public interface IProductService
-    {
-        List<Product> GetProducts();
-    }
+    List<Product> GetProducts();
 }

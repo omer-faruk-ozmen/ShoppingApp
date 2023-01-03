@@ -1,8 +1,7 @@
-﻿namespace ShoppingApp.Application.RequestParameters
+﻿namespace ShoppingApp.Application.RequestParameters;
+
+public record Pagination
 {
-    public record Pagination
-    {
-        public int Page { get; set; } = 0;
-        public int Size { get; set; } = 10;
-    }
+    public int Page { get; set; } = 0;
+    public int Size { get; set; } = 10;
 }

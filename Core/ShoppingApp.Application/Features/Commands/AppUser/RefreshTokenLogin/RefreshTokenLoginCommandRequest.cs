@@ -1,9 +1,8 @@
 ﻿using MediatR;
 
-namespace ShoppingApp.Application.Features.Commands.AppUser.RefreshTokenLogin
+namespace ShoppingApp.Application.Features.Commands.AppUser.RefreshTokenLogin;
+
+public class RefreshTokenLoginCommandRequest : IRequest<RefreshTokenLoginCommandResponse>
 {
-    public class RefreshTokenLoginCommandRequest : IRequest<RefreshTokenLoginCommandResponse>
-    {
-        public string? RefreshToken { get; set; }
-    }
+    public string? RefreshToken { get; set; }
 }

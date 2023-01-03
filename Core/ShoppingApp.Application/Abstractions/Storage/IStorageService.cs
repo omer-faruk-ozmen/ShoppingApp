@@ -1,7 +1,6 @@
-﻿namespace ShoppingApp.Application.Abstractions.Storage
+﻿namespace ShoppingApp.Application.Abstractions.Storage;
+
+public interface IStorageService : IStorage
 {
-    public interface IStorageService : IStorage
-    {
-        public string StorageName { get; }
-    }
+    public string StorageName { get; }
 }

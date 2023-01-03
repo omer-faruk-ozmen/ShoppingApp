@@ -1,30 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using ShoppingApp.Application.Abstractions.Services;
 
-namespace ShoppingApp.Application.Features.Commands.AppUser.VerifyResetToken
+namespace ShoppingApp.Application.Features.Commands.AppUser.VerifyResetToken;
+
+public class VerifyResetTokenCommandHandler : IRequestHandler<VerifyResetTokenCommandRequest, VerifyResetTokenCommandResponse>
 {
+    private readonly IAuthService _authService;
 
-    public class VerifyResetTokenCommandHandler : IRequestHandler<VerifyResetTokenCommandRequest, VerifyResetTokenCommandResponse>
+    public VerifyResetTokenCommandHandler(IAuthService authService)
     {
-        private readonly IAuthService _authService;
+        _authService = authService;
+    }
 
-        public VerifyResetTokenCommandHandler(IAuthService authService)
+    public async Task<VerifyResetTokenCommandResponse> Handle(VerifyResetTokenCommandRequest request, CancellationToken cancellationToken)
+    {
+        bool state = await _authService.VerifyResetTokenAsync(request.UserId, request.ResetToken);
+        return new()
         {
-            _authService = authService;
-        }
-
-        public async Task<VerifyResetTokenCommandResponse> Handle(VerifyResetTokenCommandRequest request, CancellationToken cancellationToken)
-        {
-            bool state = await _authService.VerifyResetTokenAsync(request.UserId, request.ResetToken);
-            return new()
-            {
-                State = state
-            };
-        }
+            State = state
+        };
     }
 }

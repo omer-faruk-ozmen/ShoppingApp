@@ -1,7 +1,6 @@
-﻿namespace ShoppingApp.Application.Abstractions.Hubs
+﻿namespace ShoppingApp.Application.Abstractions.Hubs;
+
+public interface IOrderHubService
 {
-    public interface IOrderHubService
-    {
-        Task OrderAddedMessageAsync(string message);
-    }
+    Task OrderAddedMessageAsync(string message);
 }

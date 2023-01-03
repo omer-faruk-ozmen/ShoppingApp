@@ -1,6 +1,5 @@
-﻿namespace ShoppingApp.Application.Repositories.Customer
+﻿namespace ShoppingApp.Application.Repositories.Customer;
+
+public interface ICustomerWriteRepository : IWriteRepository<Domain.Entities.Customer>
 {
-    public interface ICustomerWriteRepository : IWriteRepository<Domain.Entities.Customer>
-    {
-    }
 }

@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShoppingApp.Domain.Entities.Common;
 
-namespace ShoppingApp.Application.Repositories
+namespace ShoppingApp.Application.Repositories;
+
+public interface IRepository<T> where T : BaseEntity
 {
-    public interface IRepository<T> where T : BaseEntity
-    {
-        DbSet<T> Table { get; }
-    }
+    DbSet<T> Table { get; }
 }

@@ -1,10 +1,9 @@
 ﻿using ShoppingApp.Domain.Entities.Identity;
 
-namespace ShoppingApp.Application.Abstractions.Token
+namespace ShoppingApp.Application.Abstractions.Token;
+
+public interface ITokenHandler
 {
-    public interface ITokenHandler
-    {
-        DTOs.Token CreateAccessToken(int minute, AppUser appUser);
-        string CreateRefreshToken();
-    }
+    DTOs.Token CreateAccessToken(int minute, AppUser appUser);
+    string CreateRefreshToken();
 }

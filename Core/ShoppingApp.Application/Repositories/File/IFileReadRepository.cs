@@ -1,6 +1,5 @@
-﻿namespace ShoppingApp.Application.Repositories.File
+﻿namespace ShoppingApp.Application.Repositories.File;
+
+public interface IFileReadRepository : IReadRepository<Domain.Entities.File.File>
 {
-    public interface IFileReadRepository : IReadRepository<Domain.Entities.File.File>
-    {
-    }
 }

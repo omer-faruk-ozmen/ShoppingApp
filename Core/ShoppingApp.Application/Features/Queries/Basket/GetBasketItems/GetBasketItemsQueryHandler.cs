@@ -1,31 +1,30 @@
 ﻿using MediatR;
 using ShoppingApp.Application.Abstractions.Services;
 
-namespace ShoppingApp.Application.Features.Queries.Basket.GetBasketItems
+namespace ShoppingApp.Application.Features.Queries.Basket.GetBasketItems;
+
+public class GetBasketItemsQueryHandler : IRequestHandler<GetBasketItemsQueryRequest, List<GetBasketItemsQueryResponse>>
 {
-    public class GetBasketItemsQueryHandler : IRequestHandler<GetBasketItemsQueryRequest, List<GetBasketItemsQueryResponse>>
+
+    private readonly IBasketService _basketService;
+
+    public GetBasketItemsQueryHandler(IBasketService basketService)
     {
+        _basketService = basketService;
+    }
 
-        private readonly IBasketService _basketService;
-
-        public GetBasketItemsQueryHandler(IBasketService basketService)
+    public async Task<List<GetBasketItemsQueryResponse>> Handle(GetBasketItemsQueryRequest request, CancellationToken cancellationToken)
+    {
+        var basketItems = await _basketService.GetBasketItemsAsync();
+        return basketItems.Select(ba => new GetBasketItemsQueryResponse
         {
-            _basketService = basketService;
-        }
+            BasketItemId = ba.Id.ToString(),
+            Name = ba.Product.Name,
+            Price = ba.Product.Price,
+            Quantity = ba.Quantity
 
-        public async Task<List<GetBasketItemsQueryResponse>> Handle(GetBasketItemsQueryRequest request, CancellationToken cancellationToken)
-        {
-            var basketItems = await _basketService.GetBasketItemsAsync();
-            return basketItems.Select(ba => new GetBasketItemsQueryResponse
-            {
-                BasketItemId = ba.Id.ToString(),
-                Name = ba.Product.Name,
-                Price = ba.Product.Price,
-                Quantity = ba.Quantity
-
-            }).ToList();
+        }).ToList();
 
 
-        }
     }
 }

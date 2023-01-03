@@ -1,8 +1,7 @@
-﻿namespace ShoppingApp.Application.Features.Queries.Role.GetRoleById
+﻿namespace ShoppingApp.Application.Features.Queries.Role.GetRoleById;
+
+public class GetRoleByIdQueryResponse
 {
-    public class GetRoleByIdQueryResponse
-    {
-        public string Id { get; set; }
-        public string Name { get; set; }
-    }
+    public string Id { get; set; }
+    public string Name { get; set; }
 }

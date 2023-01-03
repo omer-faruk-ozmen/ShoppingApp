@@ -3,138 +3,137 @@ using Microsoft.AspNetCore.Http;
 using ShoppingApp.Application.Abstractions.Storage.Local;
 using ShoppingApp.Infrastructure.Operations;
 
-namespace ShoppingApp.Infrastructure.Services.Storage.Local
+namespace ShoppingApp.Infrastructure.Services.Storage.Local;
+
+public class LocalStorage : Storage, ILocalStorage
 {
-    public class LocalStorage : Storage, ILocalStorage
+    private readonly IWebHostEnvironment _webHostEnvironment;
+
+    public LocalStorage(IWebHostEnvironment webHostEnvironment)
     {
-        private readonly IWebHostEnvironment _webHostEnvironment;
+        _webHostEnvironment = webHostEnvironment;
+    }
 
-        public LocalStorage(IWebHostEnvironment webHostEnvironment)
+    public async Task<List<(string fileName, string pathOrContainerName)>> UploadAsync(string path, IFormFileCollection files)
+    {
+        string uploadPath = Path.Combine(_webHostEnvironment.WebRootPath, path);
+        if (!Directory.Exists(uploadPath))
+            Directory.CreateDirectory(uploadPath);
+
+        List<(string fileName, string path)> datas = new();
+
+        foreach (IFormFile file in files)
         {
-            _webHostEnvironment = webHostEnvironment;
+
+            string fileNewName = await FileRenameAsync(path, file.Name, HasFile);
+            await CopyFileAsync($"{uploadPath}\\{fileNewName}", file);
+            datas.Add((fileNewName, $"{path}\\{fileNewName}"));
         }
 
-        public async Task<List<(string fileName, string pathOrContainerName)>> UploadAsync(string path, IFormFileCollection files)
+
+
+        return datas;
+
+        //Todo Exception
+    }
+    private async Task<bool> CopyFileAsync(string path, IFormFile file)
+    {
+        try
         {
-            string uploadPath = Path.Combine(_webHostEnvironment.WebRootPath, path);
-            if (!Directory.Exists(uploadPath))
-                Directory.CreateDirectory(uploadPath);
-
-            List<(string fileName, string path)> datas = new();
-
-            foreach (IFormFile file in files)
-            {
-
-                string fileNewName = await FileRenameAsync(path, file.Name, HasFile);
-                await CopyFileAsync($"{uploadPath}\\{fileNewName}", file);
-                datas.Add((fileNewName, $"{path}\\{fileNewName}"));
-            }
-
-
-
-            return datas;
-
-            //Todo Exception
+            await using FileStream fileStream = new(path, FileMode.Create, FileAccess.Write, FileShare.None, 1024 * 1024,
+                useAsync: false);
+            await file.CopyToAsync(fileStream);
+            await fileStream.FlushAsync();
+            return true;
         }
-        private async Task<bool> CopyFileAsync(string path, IFormFile file)
+        catch (Exception e)
         {
-            try
-            {
-                await using FileStream fileStream = new(path, FileMode.Create, FileAccess.Write, FileShare.None, 1024 * 1024,
-                    useAsync: false);
-                await file.CopyToAsync(fileStream);
-                await fileStream.FlushAsync();
-                return true;
-            }
-            catch (Exception e)
-            {
-                //Todo log!
-                throw new Exception($"{e}");
-            }
-
-
-
+            //Todo log!
+            throw new Exception($"{e}");
         }
-        private async Task<string> FileRenameAsync(string path, string fileName, bool first = true)
+
+
+
+    }
+    private async Task<string> FileRenameAsync(string path, string fileName, bool first = true)
+    {
+        string newFileName = await Task.Run<string>(async () =>
         {
-            string newFileName = await Task.Run<string>(async () =>
+            string extension = Path.GetExtension(fileName);
+            string newFileName = string.Empty;
+            if (first)
             {
-                string extension = Path.GetExtension(fileName);
-                string newFileName = string.Empty;
-                if (first)
+                string oldName = Path.GetFileNameWithoutExtension(fileName);
+                newFileName = $"{NameOperation.CharacterRegulatory(oldName)}{extension}";
+
+            }
+            else
+            {
+                newFileName = fileName;
+                int indexNo1 = newFileName.IndexOf("-");
+                if (indexNo1 == -1)
                 {
-                    string oldName = Path.GetFileNameWithoutExtension(fileName);
-                    newFileName = $"{NameOperation.CharacterRegulatory(oldName)}{extension}";
-
+                    newFileName = $"{Path.GetFileNameWithoutExtension(newFileName)}-2{extension}";
                 }
                 else
                 {
-                    newFileName = fileName;
-                    int indexNo1 = newFileName.IndexOf("-");
-                    if (indexNo1 == -1)
+                    int lastIndex = 0;
+                    while (true)
                     {
-                        newFileName = $"{Path.GetFileNameWithoutExtension(newFileName)}-2{extension}";
+                        lastIndex = indexNo1;
+                        indexNo1 = newFileName.IndexOf("-", indexNo1 + 1);
+                        if (indexNo1 == -1)
+                        {
+                            indexNo1 = lastIndex;
+                            break;
+                        }
+                    }
+
+
+                    int indexNo2 = newFileName.IndexOf(".");
+                    string fileNo = newFileName.Substring(indexNo1 + 1, indexNo2 - indexNo1 - 1);
+
+                    if (int.TryParse(fileNo, out int _fileNo))
+                    {
+                        _fileNo++;
+                        newFileName = newFileName.Remove(indexNo1 + 1, indexNo2 - indexNo1 - 1)
+                            .Insert(indexNo1 + 1, _fileNo.ToString());
                     }
                     else
                     {
-                        int lastIndex = 0;
-                        while (true)
-                        {
-                            lastIndex = indexNo1;
-                            indexNo1 = newFileName.IndexOf("-", indexNo1 + 1);
-                            if (indexNo1 == -1)
-                            {
-                                indexNo1 = lastIndex;
-                                break;
-                            }
-                        }
-
-
-                        int indexNo2 = newFileName.IndexOf(".");
-                        string fileNo = newFileName.Substring(indexNo1 + 1, indexNo2 - indexNo1 - 1);
-
-                        if (int.TryParse(fileNo, out int _fileNo))
-                        {
-                            _fileNo++;
-                            newFileName = newFileName.Remove(indexNo1 + 1, indexNo2 - indexNo1 - 1)
-                                                        .Insert(indexNo1 + 1, _fileNo.ToString());
-                        }
-                        else
-                        {
-                            newFileName = $"{Path.GetFileNameWithoutExtension(newFileName)}-2{extension}";
-                        }
-
-
+                        newFileName = $"{Path.GetFileNameWithoutExtension(newFileName)}-2{extension}";
                     }
+
+
                 }
+            }
 
 
 
-                if (File.Exists($"{path}\\{newFileName}"))
-                {
-                    return await FileRenameAsync(path, newFileName, false);
-                }
-                else
-                    return newFileName;
+            if (File.Exists($"{path}\\{newFileName}"))
+            {
+                return await FileRenameAsync(path, newFileName, false);
+            }
+            else
+                return newFileName;
 
-            });
+        });
 
-            return newFileName;
+        return newFileName;
 
-        }
-
-        public async Task DeleteAsync(string path, string fileName)
-        {
-            File.Delete($"{path}\\{fileName}");
-        }
-
-        public List<string> GetFiles(string path)
-        {
-            DirectoryInfo directory = new(path);
-            return directory.GetFiles().Select(f => f.Name).ToList();
-        }
-
-        public new bool HasFile(string path, string fileName)
-            => File.Exists($"{path}\\{fileName}");
     }
+
+    public async Task DeleteAsync(string path, string fileName)
+    {
+        File.Delete($"{path}\\{fileName}");
+    }
+
+    public List<string> GetFiles(string path)
+    {
+        DirectoryInfo directory = new(path);
+        return directory.GetFiles().Select(f => f.Name).ToList();
+    }
+
+    public new bool HasFile(string path, string fileName)
+        => File.Exists($"{path}\\{fileName}");
 }

@@ -1,9 +1,8 @@
 ﻿using ShoppingApp.Application.DTOs;
 
-namespace ShoppingApp.Application.Features.Commands.AppUser.RefreshTokenLogin
+namespace ShoppingApp.Application.Features.Commands.AppUser.RefreshTokenLogin;
+
+public class RefreshTokenLoginCommandResponse
 {
-    public class RefreshTokenLoginCommandResponse
-    {
-        public Token? Token { get; set; }
-    }
+    public Token? Token { get; set; }
 }

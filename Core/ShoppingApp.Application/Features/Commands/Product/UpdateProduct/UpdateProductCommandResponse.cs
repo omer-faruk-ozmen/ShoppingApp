@@ -1,6 +1,5 @@
-﻿namespace ShoppingApp.Application.Features.Commands.Product.UpdateProduct
+﻿namespace ShoppingApp.Application.Features.Commands.Product.UpdateProduct;
+
+public class UpdateProductCommandResponse
 {
-    public class UpdateProductCommandResponse
-    {
-    }
 }

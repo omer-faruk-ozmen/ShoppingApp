@@ -1,6 +1,5 @@
-﻿namespace ShoppingApp.Application.Repositories.FileRepositories.InvoiceFile
+﻿namespace ShoppingApp.Application.Repositories.FileRepositories.InvoiceFile;
+
+public interface IInvoiceFileWriteRepository : IWriteRepository<Domain.Entities.File.InvoiceFile>
 {
-    public interface IInvoiceFileWriteRepository : IWriteRepository<Domain.Entities.File.InvoiceFile>
-    {
-    }
 }

@@ -1,29 +1,23 @@
 ﻿using MediatR;
 using ShoppingApp.Application.Abstractions.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ShoppingApp.Application.Features.Commands.Role.CreateRole
+namespace ShoppingApp.Application.Features.Commands.Role.CreateRole;
+
+public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommandRequest, CreateRoleCommandResponse>
 {
-    public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommandRequest, CreateRoleCommandResponse>
+    private readonly IRoleService _roleService;
+
+    public CreateRoleCommandHandler(IRoleService roleService)
     {
-        private readonly IRoleService _roleService;
+        _roleService = roleService;
+    }
 
-        public CreateRoleCommandHandler(IRoleService roleService)
+    public async Task<CreateRoleCommandResponse> Handle(CreateRoleCommandRequest request, CancellationToken cancellationToken)
+    {
+        var result = await _roleService.CreateRole(request.Name);
+        return new()
         {
-            _roleService = roleService;
-        }
-
-        public async Task<CreateRoleCommandResponse> Handle(CreateRoleCommandRequest request, CancellationToken cancellationToken)
-        {
-            var result = await _roleService.CreateRole(request.Name);
-            return new()
-            {
-                Succeded = result
-            };
-        }
+            Succeded = result
+        };
     }
 }

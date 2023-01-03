@@ -1,10 +1,9 @@
 ﻿using MediatR;
 
-namespace ShoppingApp.Application.Features.Commands.ProductImageFile.RemoveProductImage
+namespace ShoppingApp.Application.Features.Commands.ProductImageFile.RemoveProductImage;
+
+public class RemoveProductImageCommandRequest:IRequest<RemoveProductImageCommandResponse>
 {
-    public class RemoveProductImageCommandRequest:IRequest<RemoveProductImageCommandResponse>
-    {
-        public string? Id { get; set; }
-        public string? ImageId { get; set; }
-    }
+    public string? Id { get; set; }
+    public string? ImageId { get; set; }
 }

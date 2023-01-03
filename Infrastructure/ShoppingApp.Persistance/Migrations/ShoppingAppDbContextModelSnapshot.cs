@@ -22,6 +22,21 @@ namespace ShoppingApp.Persistence.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("AppRoleEndpoint", b =>
+                {
+                    b.Property<string>("AppRolesId")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("EndpointsId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("AppRolesId", "EndpointsId");
+
+                    b.HasIndex("EndpointsId");
+
+                    b.ToTable("AppRoleEndpoint");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
@@ -239,6 +254,44 @@ namespace ShoppingApp.Persistence.Migrations
                     b.ToTable("Customers");
                 });
 
+            modelBuilder.Entity("ShoppingApp.Domain.Entities.Endpoint", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ActionType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Definition")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("HttpType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("MenuId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MenuId");
+
+                    b.ToTable("Endpoints");
+                });
+
             modelBuilder.Entity("ShoppingApp.Domain.Entities.File.File", b =>
                 {
                     b.Property<Guid>("Id")
@@ -370,6 +423,27 @@ namespace ShoppingApp.Persistence.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("ShoppingApp.Domain.Entities.Menu", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Menus");
+                });
+
             modelBuilder.Entity("ShoppingApp.Domain.Entities.Order", b =>
                 {
                     b.Property<Guid>("Id")
@@ -443,6 +517,21 @@ namespace ShoppingApp.Persistence.Migrations
                         .HasColumnType("boolean");
 
                     b.HasDiscriminator().HasValue("ProductImageFile");
+                });
+
+            modelBuilder.Entity("AppRoleEndpoint", b =>
+                {
+                    b.HasOne("ShoppingApp.Domain.Entities.Identity.AppRole", null)
+                        .WithMany()
+                        .HasForeignKey("AppRolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ShoppingApp.Domain.Entities.Endpoint", null)
+                        .WithMany()
+                        .HasForeignKey("EndpointsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -552,6 +641,17 @@ namespace ShoppingApp.Persistence.Migrations
                     b.Navigation("Order");
                 });
 
+            modelBuilder.Entity("ShoppingApp.Domain.Entities.Endpoint", b =>
+                {
+                    b.HasOne("ShoppingApp.Domain.Entities.Menu", "Menu")
+                        .WithMany("Endpoints")
+                        .HasForeignKey("MenuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Menu");
+                });
+
             modelBuilder.Entity("ShoppingApp.Domain.Entities.Order", b =>
                 {
                     b.HasOne("ShoppingApp.Domain.Entities.Basket", "Basket")
@@ -574,6 +674,11 @@ namespace ShoppingApp.Persistence.Migrations
             modelBuilder.Entity("ShoppingApp.Domain.Entities.Identity.AppUser", b =>
                 {
                     b.Navigation("Baskets");
+                });
+
+            modelBuilder.Entity("ShoppingApp.Domain.Entities.Menu", b =>
+                {
+                    b.Navigation("Endpoints");
                 });
 
             modelBuilder.Entity("ShoppingApp.Domain.Entities.Order", b =>

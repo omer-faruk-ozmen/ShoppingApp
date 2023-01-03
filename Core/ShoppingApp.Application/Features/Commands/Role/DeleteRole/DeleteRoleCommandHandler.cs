@@ -1,30 +1,24 @@
 ﻿using MediatR;
 using ShoppingApp.Application.Abstractions.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ShoppingApp.Application.Features.Commands.Role.DeleteRole
+namespace ShoppingApp.Application.Features.Commands.Role.DeleteRole;
+
+public class DeleteRoleCommandHandler : IRequestHandler<DeleteRoleCommandRequest, DeleteRoleCommandResponse>
 {
-    public class DeleteRoleCommandHandler : IRequestHandler<DeleteRoleCommandRequest, DeleteRoleCommandResponse>
+    private readonly IRoleService _roleService;
+
+    public DeleteRoleCommandHandler(IRoleService roleService)
     {
-        private readonly IRoleService _roleService;
+        _roleService = roleService;
+    }
 
-        public DeleteRoleCommandHandler(IRoleService roleService)
+    public async Task<DeleteRoleCommandResponse> Handle(DeleteRoleCommandRequest request, CancellationToken cancellationToken)
+    {
+        var result = await _roleService.DeleteRole(request.Id);
+
+        return new()
         {
-            _roleService = roleService;
-        }
-
-        public async Task<DeleteRoleCommandResponse> Handle(DeleteRoleCommandRequest request, CancellationToken cancellationToken)
-        {
-            var result = await _roleService.DeleteRole(request.Name);
-
-            return new()
-            {
-                Succeded = result
-            };
-        }
+            Succeded = result
+        };
     }
 }

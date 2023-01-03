@@ -1,6 +1,5 @@
-﻿namespace ShoppingApp.Application.Features.Commands.Basket.AddItemToBasket
+﻿namespace ShoppingApp.Application.Features.Commands.Basket.AddItemToBasket;
+
+public class AddItemToBasketCommandResponse
 {
-    public class AddItemToBasketCommandResponse
-    {
-    }
 }

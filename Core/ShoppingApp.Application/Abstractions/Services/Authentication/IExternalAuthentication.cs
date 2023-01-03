@@ -1,7 +1,6 @@
-﻿namespace ShoppingApp.Application.Abstractions.Services.Authentication
+﻿namespace ShoppingApp.Application.Abstractions.Services.Authentication;
+
+public interface IExternalAuthentication
 {
-    public interface IExternalAuthentication
-    {
-        Task<DTOs.Token> GoogleLoginAsync(string idToken,string provider,int accessTokenLifeTime);
-    }
+    Task<DTOs.Token> GoogleLoginAsync(string idToken,string provider,int accessTokenLifeTime);
 }

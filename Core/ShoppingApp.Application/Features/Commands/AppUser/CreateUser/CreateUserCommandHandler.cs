@@ -3,35 +3,34 @@ using ShoppingApp.Application.Abstractions.Services;
 using ShoppingApp.Application.DTOs.User;
 using User = ShoppingApp.Domain.Entities.Identity;
 
-namespace ShoppingApp.Application.Features.Commands.AppUser.CreateUser
+namespace ShoppingApp.Application.Features.Commands.AppUser.CreateUser;
+
+public class CreateUserCommandHandler : IRequestHandler<CreateUserCommandRequest, CreateUserCommandResponse>
 {
-    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommandRequest, CreateUserCommandResponse>
+    private readonly IUserService _userService;
+
+    public CreateUserCommandHandler(IUserService userService)
     {
-        private readonly IUserService _userService;
+        _userService = userService;
+    }
 
-        public CreateUserCommandHandler(IUserService userService)
+    public async Task<CreateUserCommandResponse> Handle(CreateUserCommandRequest request, CancellationToken cancellationToken)
+    {
+        CreateUserResponseDto response = await _userService.CreateAsync(new()
         {
-            _userService = userService;
-        }
+            Email = request.Email,
+            FirstName = request.FirstName,
+            LastName = request.LastName,
+            Password = request.Password,
+            UserName = request.UserName
+        });
 
-        public async Task<CreateUserCommandResponse> Handle(CreateUserCommandRequest request, CancellationToken cancellationToken)
+        return new()
         {
-            CreateUserResponseDto response = await _userService.CreateAsync(new()
-            {
-                Email = request.Email,
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                Password = request.Password,
-                UserName = request.UserName
-            });
-
-            return new()
-            {
-                Message = response.Message,
-                Succeeded = response.Succeeded
-            };
+            Message = response.Message,
+            Succeeded = response.Succeeded
+        };
 
             
-        }
     }
 }

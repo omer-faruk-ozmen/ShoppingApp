@@ -1,26 +1,25 @@
 ﻿using MediatR;
 using ShoppingApp.Application.Abstractions.Services;
 
-namespace ShoppingApp.Application.Features.Commands.Basket.UpdateQuantity
+namespace ShoppingApp.Application.Features.Commands.Basket.UpdateQuantity;
+
+public class UpdateQuantityCommandHandler : IRequestHandler<UpdateQuantityCommandRequest,UpdateQuantityCommandResponse>
 {
-    public class UpdateQuantityCommandHandler : IRequestHandler<UpdateQuantityCommandRequest,UpdateQuantityCommandResponse>
+    private readonly IBasketService _basketService;
+
+    public UpdateQuantityCommandHandler(IBasketService basketService)
     {
-        private readonly IBasketService _basketService;
+        _basketService = basketService;
+    }
 
-        public UpdateQuantityCommandHandler(IBasketService basketService)
+    public async Task<UpdateQuantityCommandResponse> Handle(UpdateQuantityCommandRequest request, CancellationToken cancellationToken)
+    {
+        await _basketService.UpdateQuantityAsync(new()
         {
-            _basketService = basketService;
-        }
+            BasketItemId = request.BasketItemId,
+            Quantity = request.Quantity
+        });
 
-        public async Task<UpdateQuantityCommandResponse> Handle(UpdateQuantityCommandRequest request, CancellationToken cancellationToken)
-        {
-            await _basketService.UpdateQuantityAsync(new()
-            {
-                BasketItemId = request.BasketItemId,
-                Quantity = request.Quantity
-            });
-
-            return new();
-        }
+        return new();
     }
 }
