@@ -1,6 +1,6 @@
 ﻿namespace ShoppingApp.Application.DTOs.Orders;
 
-public class SingleOrder
+public class SingleOrderDto
 {
     public string Id { get; set; }
     public string OrderCode { get; set; }

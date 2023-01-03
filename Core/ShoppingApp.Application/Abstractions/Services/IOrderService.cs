@@ -5,7 +5,7 @@ namespace ShoppingApp.Application.Abstractions.Services;
 public interface IOrderService
 {
     Task CreateOrderAsync(CreateOrderDto createOrderDto);
-    Task<ListOrder> GetAllOrdersAsync(int page, int size);
-    Task<SingleOrder> GetOrderByIdAsync(string id);
+    Task<ListOrderDto> GetAllOrdersAsync(int page, int size);
+    Task<SingleOrderDto> GetOrderByIdAsync(string id);
     Task<(bool,CompletedOrderDto)> CompleteOrderAsync(string id);
 }

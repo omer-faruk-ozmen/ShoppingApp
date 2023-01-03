@@ -15,7 +15,7 @@ public class GetOrderByIdQueryHandler : IRequestHandler<GetOrderByIdQueryRequest
 
     public async Task<GetOrderByIdQueryResponse> Handle(GetOrderByIdQueryRequest request, CancellationToken cancellationToken)
     {
-        SingleOrder data = await _orderService.GetOrderByIdAsync(request.Id);
+        SingleOrderDto data = await _orderService.GetOrderByIdAsync(request.Id);
         return new()
         {
             Id = data.Id,

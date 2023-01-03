@@ -37,7 +37,7 @@ public class OrderService : IOrderService
         await _orderWriteRepository.SaveAsync();
     }
 
-    public async Task<ListOrder> GetAllOrdersAsync(int page, int size)
+    public async Task<ListOrderDto> GetAllOrdersAsync(int page, int size)
     {
         var query = _orderReadRepository.Table.Include(o => o.Basket)
             .ThenInclude(b => b.User)
@@ -74,7 +74,7 @@ public class OrderService : IOrderService
         };
     }
 
-    public async Task<SingleOrder> GetOrderByIdAsync(string id)
+    public async Task<SingleOrderDto> GetOrderByIdAsync(string id)
     {
         var data = _orderReadRepository.Table
             .Include(o => o.Basket)

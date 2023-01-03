@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using ShoppingApp.Application.Abstractions.Services;
 using ShoppingApp.Application.DTOs.User;
 using ShoppingApp.Application.Exceptions;
@@ -76,5 +77,45 @@ public class UserService : IUserService
             else
                 throw new PasswordChangeFailedException();
         }
+    }
+
+    public async Task<List<ListUserDto>> GetAllUsersAsync(int page, int size)
+    {
+        List<AppUser> users = await _userManager.Users.Skip(page * size).Take(size).ToListAsync();
+
+        return users.Select(user => new ListUserDto()
+        {
+            Email = user.Email,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Id = user.Id,
+            UserName = user.UserName,
+            TwoFactorEnabled = user.TwoFactorEnabled,
+        }).ToList();
+    }
+
+    public int TotalUsersCount => _userManager.Users.Count();
+    public async Task AssignRoleToUserAsync(string id, string[] roles)
+    {
+        AppUser user = await _userManager.FindByIdAsync(id);
+        if (user is not null)
+        {
+            var userRoles = await _userManager.GetRolesAsync(user);
+            await _userManager.RemoveFromRolesAsync(user, userRoles);
+            await _userManager.AddToRolesAsync(user, roles);
+        }
+
+    }
+
+    public async Task<string[]> GetRolesToUserAsync(string id)
+    {
+        AppUser user = await _userManager.FindByIdAsync(id);
+        if (user is not null)
+        {
+            var userRoles = await _userManager.GetRolesAsync(user);
+            return userRoles.ToArray();
+        }
+
+        return new string[] { };
     }
 }

@@ -15,7 +15,7 @@ public class GetAllOrderQueryHandler : IRequestHandler<GetAllOrderQueryRequest, 
 
     public async Task<GetAllOrderQueryResponse> Handle(GetAllOrderQueryRequest request, CancellationToken cancellationToken)
     {
-        ListOrder listOrder = await _orderService.GetAllOrdersAsync(request.Page, request.Size);
+        ListOrderDto listOrder = await _orderService.GetAllOrdersAsync(request.Page, request.Size);
 
         return new()
         {
