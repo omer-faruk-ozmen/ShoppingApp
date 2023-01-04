@@ -6,6 +6,7 @@ using ShoppingApp.Application.CustomAttributes;
 using ShoppingApp.Application.Enums;
 using ShoppingApp.Application.Features.Commands.Order.CompleteOrder;
 using ShoppingApp.Application.Features.Commands.Order.CreateOrder;
+using ShoppingApp.Application.Features.Commands.Order.RemoveOrder;
 using ShoppingApp.Application.Features.Queries.Order.GetAllOrders;
 using ShoppingApp.Application.Features.Queries.Order.GetOrderById;
 
@@ -54,6 +55,14 @@ public class OrdersController : ControllerBase
     public async Task<IActionResult> CompleteOrder([FromRoute] CompleteOrderCommandRequest completeOrderCommandRequest)
     {
         CompleteOrderCommandResponse response = await _mediator.Send(completeOrderCommandRequest);
+        return Ok(response);
+    }
+
+    [HttpDelete("{Id}")]
+    [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Orders, ActionType = ActionType.Deleting, Definition = "Delete Order")]
+    public async Task<IActionResult> DeleteOrder([FromRoute] RemoveOrderCommandRequest request)
+    {
+        RemoveOrderCommandResponse response = await _mediator.Send(request);
         return Ok(response);
     }
 
