@@ -33,6 +33,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
+    [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Reading, Definition = "Get All Product")]
     public async Task<IActionResult> Get([FromQuery] GetAllProductQueryRequest getAllProductQueryRequest)
     {
         GetAllProductQueryResponse response = await _mediator.Send(getAllProductQueryRequest);
@@ -40,6 +41,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet("{Id}")]
+    [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Reading, Definition = "Get By Id Product")]
     public async Task<IActionResult> Get([FromRoute] GetByIdProductQueryRequest getByIdProductQueryRequest)
     {
         GetByIdProductQueryResponse response = await _mediator.Send(getByIdProductQueryRequest);

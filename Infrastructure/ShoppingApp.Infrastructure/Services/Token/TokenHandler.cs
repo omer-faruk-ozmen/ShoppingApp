@@ -38,7 +38,7 @@ public class TokenHandler : ITokenHandler
             signingCredentials: signingCredentials,
             claims: new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.UserName)
+                new(ClaimTypes.Name, user.UserName)
             });
 
         JwtSecurityTokenHandler tokenHandler = new();

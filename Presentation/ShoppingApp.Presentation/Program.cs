@@ -16,6 +16,7 @@ using ShoppingApp.Infrastructure.Services.Storage.Azure;
 using ShoppingApp.Persistence;
 using ShoppingApp.Presentation.Configurations.ColumnWriters;
 using ShoppingApp.Presentation.Extensions;
+using ShoppingApp.Presentation.Filters;
 using ShoppingApp.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -74,7 +75,11 @@ builder.Services.AddHttpLogging(logging =>
 });
 
 
-builder.Services.AddControllers(options => options.Filters.Add<ValidationFilter>())
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ValidationFilter>();
+    options.Filters.Add<RolePermissionFilter>();
+})
     .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<CreateProductValidator>())
     .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true);
 builder.Services.AddEndpointsApiExplorer();
@@ -107,7 +112,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-if(app.Environment.IsProduction())
+if (app.Environment.IsProduction())
 {
 
 }
