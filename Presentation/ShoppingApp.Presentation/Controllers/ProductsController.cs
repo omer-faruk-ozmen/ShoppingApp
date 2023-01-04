@@ -2,6 +2,7 @@
 using System.Net;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using ShoppingApp.Application.Abstractions.Services;
 using ShoppingApp.Application.Features.Commands.Product.CreateProduct;
 using ShoppingApp.Application.Features.Commands.Product.RemoveProduct;
 using ShoppingApp.Application.Features.Commands.Product.UpdateProduct;
@@ -23,13 +24,13 @@ public class ProductsController : ControllerBase
 {
         
     readonly IMediator _mediator;
+    private readonly IProductService _productService;
 
     public ProductsController(
-        IMediator mediator)
+        IMediator mediator, IProductService productService)
     {
-
-
         _mediator = mediator;
+        _productService = productService;
     }
 
     [HttpGet]
@@ -38,6 +39,14 @@ public class ProductsController : ControllerBase
     {
         GetAllProductQueryResponse response = await _mediator.Send(getAllProductQueryRequest);
         return Ok(response);
+    }
+
+    [HttpGet("qr-code/{productId}")]
+    [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Reading, Definition = "Get QR Code To Product")]
+    public async Task<IActionResult> GetQrCodeToProduct([FromRoute] string productId)
+    {
+       var qrCode= await _productService.QrCodeToProductAsync(productId);
+        return File(qrCode,"image/png");
     }
 
     [HttpGet("{Id}")]
